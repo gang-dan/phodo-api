@@ -71,6 +71,7 @@ jobs:
         cp -r .ebextensions deploy/.ebextensions
         cd deploy && zip -r deploy.zip .
 
+
     # Beanstalk Deploy 플러그인 사용
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v19
