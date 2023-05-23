@@ -43,7 +43,7 @@ jobs:
           /secret/phodo
         parse-json: false # AWS secret manager
 
-    - name: Grant execute permission for gradlew
+    - name: Grant execute permission for gradlew체
       run: chmod +x ./gradlew  # gradle wrapper를 실행할 수 있도록 권한 부여
       shell: bash
 
@@ -78,7 +78,7 @@ jobs:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}     # github secrets로 등록한 값 사용
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # github secrets로 등록한 값 사용
         application_name: phodo-api     # EB application 이름
-        environment_name: Phodo-api-env-1    # EB environment 이름
+        environment_name: Phodo-api-env-2    # EB environment 이름
         version_label: github-action-${{steps.current-time.outputs.formattedTime}}
         region: ap-northeast-2
         deployment_package: deploy/deploy.zip
