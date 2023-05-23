@@ -1,5 +1,3 @@
-server:
-  port: 5000
 
 spring:
   config:
@@ -45,6 +43,10 @@ springdoc:
     disable-swagger-default-url: true
     display-query-params-without-oauth2: true
 
+token:
+  secret: phodo-api
+  access-token-expiration-time: 99999999999
+  refresh-token-expiration-time: 99999999999
 ---
 
 spring:
@@ -69,3 +71,6 @@ swagger:
   desc: for real usages
   documentation:
     enabled: true
+
+server:
+  port: 5000

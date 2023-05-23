@@ -21,8 +21,8 @@ public class PhotoSpot {
 
     private String photoSpotName;
 
-    private BigDecimal longitude;
+    private double longitude;
 
-    private BigDecimal latitude;
+    private double latitude;
 
 }
