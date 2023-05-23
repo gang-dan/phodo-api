@@ -27,11 +27,11 @@ spring:
       # swagger
       matching-strategy: ant_path_matcher
 
-# server:
-#  port: 8080
-#  error:
-#    whitelabel:
-#      enabled: false
+# swagger
+springfox:
+  documentation:
+    enabled: true
+
 
 springdoc:
   default-consumes-media-type: application/json
@@ -63,7 +63,7 @@ spring:
       on-profile: ["real"]
 
 swagger:
-  url: http://phodo-api-env.eba-scchfrxy.ap-northeast-2.elasticbeanstalk.com:8080
+  url: http://phodo-api-env-1.eba-scchfrxy.ap-northeast-2.elasticbeanstalk.com:8080
   desc: for real usages
   documentation:
     enabled: true
