@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/hello")
 public class HelloController {
 
-    @Tag(name = "members")
+    @Tag(name = "hello")
     @ApiOperation(value = "test!!")
     @GetMapping("")
     public ResponseEntity<?> testHello(){
