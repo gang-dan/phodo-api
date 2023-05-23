@@ -27,11 +27,11 @@ spring:
       # swagger
       matching-strategy: ant_path_matcher
 
-server:
-  port: 8080
-  error:
-    whitelabel:
-      enabled: false
+# server:
+#  port: 8080
+#  error:
+#    whitelabel:
+#      enabled: false
 
 springdoc:
   default-consumes-media-type: application/json
