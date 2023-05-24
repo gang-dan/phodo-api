@@ -62,24 +62,46 @@ jobs:
       run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # 빌드 완료 시간 출력하기
       shell: bash
 
-    # gradle build를 통해 만들어진 jar 파일 beanstalk에 배포하기 위한 zip 파일로
-    - name: Generate deployment package
-      run: |
-        mkdir -p deploy
-        cp build/libs/*.jar deploy/application.jar
-        cp Procfile deploy/Procfile
-        cp -r .ebextensions deploy/.ebextensions
-        cd deploy && zip -r deploy.zip .
+      # 디렉토리 생성
+    - name: Make Directory
+      run: mkdir -p deploy
 
-    # Beanstalk Deploy 플러그인 사용
-    - name: Deploy to EB
-      uses: einaregilsson/beanstalk-deploy@v19
+      # Jar 파일 복사
+    - name: Copy Jar
+      run: cp ./build/libs/*.jar ./deploy
+
+      # appspec.yml 파일 복사
+    - name: Copy appspec.yml
+      run: cp appspec.yml ./deploy
+
+      # script files 복사
+    - name: Copy script
+      run: cp ./scripts/*.sh ./deploy
+
+    - name: Make zip file
+      run: zip -r ./phodo-api.zip ./deploy
+      shell: bash
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}     # github secrets로 등록한 값 사용
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # github secrets로 등록한 값 사용
-        application_name: phodo-api     # EB application 이름
-        environment_name: Phodo-api-env    # EB environment 이름
-        version_label: github-action-${{steps.current-time.outputs.formattedTime}}
-        region: ap-northeast-2
-        deployment_package: deploy/deploy.zip
-        wait_for_deployment: false
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./phodo-api.zip s3://phodo-api-deploy/
+
+
+      # Deploy
+    - name: Deploy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        aws deploy create-deployment \
+        --application-name phodo-api \
+        --deployment-group-name phodo-api-group \
+        --file-exists-behavior OVERWRITE \
+        --s3-location bucket=phodo-api-deploy,bundleType=zip,key=phodo-api-deploy.zip \ 
+        --region ap-northeast-2
