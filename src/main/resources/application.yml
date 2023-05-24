@@ -3,16 +3,12 @@ spring:
   config:
     activate:
       on-profile: ["local", "real"]
-  servlet:
-    multipart:
-      max-file-size: 500MB
-      max-request-size: 500MB
 
   datasource:
-    url: ${DATABASE_URL}
+    url: jdbc:mysql://phodo.cbwndlp3bm95.ap-northeast-2.rds.amazonaws.com:3306/phodo
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    username: phodo
+    password: phodophodo
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
@@ -71,6 +67,3 @@ swagger:
   desc: for real usages
   documentation:
     enabled: true
-
-server:
-  port: 5000
