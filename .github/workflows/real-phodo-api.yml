@@ -2,8 +2,8 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
 
 name: real-phodo-api
 
@@ -26,71 +26,41 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-region: ap-northeast-2
-#
-#      - name: Read secrets from AWS Secrets Manager into environment variables
-#        uses: abhilash1in/aws-secrets-manager-action@v1.1.0
-#        with:
-#          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
-#          aws-region: ap-northeast-2
-#          secrets: |
-#            /secret/phodo
-#          parse-json: false # AWS secret manager
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew  # gradle wrapper를 실행할 수 있도록 권한 부여
+        run: chmod +x ./gradlew # gradle wrapper를 실행할 수 있도록 권한 부여
         shell: bash
 
-      - name: Build with Gradle
-        run: ./gradlew clean build  # 프로젝트 빌드
+      - name: Set timezone to Seoul
+        run: sudo timedatectl set-timezone Asia/Seoul
+        shell: bash
+
+      - name: JIB Build with Gradle
+        run: ./gradlew :phodo-api:jib # 프로젝트 빌드
         shell: bash
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2  # 빌드 완료 시간 가져오기
         id: current-time
         with:
-          format: YYYY-MM-DDTHH-mm-ss
+          format: YYYY-MM-DD-HH-mm-ss
           utcOffset: "+09:00"
 
       - name: Show Current Time
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # 빌드 완료 시간 출력하기
         shell: bash
 
-        # 디렉토리 생성
-      - name: Make Directory
-        run: mkdir -p deploy
-
-        # Jar 파일 복사
-      - name: Copy Jar
-        run: cp ./build/libs/*.jar ./deploy
-
-        # appspec.yml 파일 복사
-      - name: Copy appspec.yml
-        run: cp appspec.yml ./deploy
-
-        # script files 복사
-      - name: Copy script
-        run: cp ./scripts/*.sh ./deploy
-
-      - name: Make zip file
-        run: zip -r ./phodo-api.zip ./deploy
-        shell: bash
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
-      - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./phodo-api.zip s3://phodo-api-deploy/
-
-      - name: Code Deploy
-        run: aws deploy create-deployment --application-name phodo-api --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name phodo-api-group --s3-location bucket=phodo-api-deploy,bundleType=zip,key=phodo-api.zip
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: [ self-hosted, label-development ]
+    steps:
+      - name: Docker run
+        run: |
+          sudo docker ps -q --filter "name=phodo-api" | grep -q . && sudo docker stop "phodo-api" && sudo docker rmi  "phodo2023/phodo-api-repo:latest"
+          sudo docker run -d --name phodo-api --rm -p 8080:8080 phodo2023/phodo-api-repo:latest
