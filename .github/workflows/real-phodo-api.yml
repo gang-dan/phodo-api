@@ -103,5 +103,5 @@ jobs:
         --application-name phodo-api \
         --deployment-group-name phodo-api-group \
         --file-exists-behavior OVERWRITE \
-        --s3-location bucket=phodo-api-deploy,bundleType=zip,key=phodo-api-deploy.zip \ 
+        --s3-location bucket=phodo-api-deploy,bundleType=zip,key=phodo-api.zip \ 
         --region ap-northeast-2
