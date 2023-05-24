@@ -93,4 +93,4 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./phodo-api.zip s3://phodo-api-deploy/
 
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name phodo-api --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name phodo-api-group --s3-location bucket=phodo-api-deploy,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+      run: aws deploy create-deployment --application-name phodo-api --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name phodo-api-group --s3-location bucket=phodo-api-deploy,bundleType=zip,key=phodo-api.zip
