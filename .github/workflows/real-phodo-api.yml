@@ -70,6 +70,10 @@ jobs:
         cp deploy.sh deploy/deploy.sh
         cd deploy
 
+    - name: Make zip file
+      run: zip -r ./phodo-api.zip ./deploy
+      shell: bash
+
     - name: aws 세팅
       uses: aws-actions/configure-aws-credentials@v1
       with:
