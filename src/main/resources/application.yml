@@ -65,7 +65,7 @@ spring:
       ddl-auto: validate
 
 swagger:
-  url: http://please-env.eba-azdamvqz.ap-northeast-2.elasticbeanstalk.com/
+  url: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/
   desc: for real usages
   documentation:
     enabled: true
