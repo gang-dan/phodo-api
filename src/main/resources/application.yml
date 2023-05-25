@@ -1,14 +1,12 @@
-
 spring:
-  config:
-    activate:
-      on-profile: ["local", "real"]
+  profiles:
+    active: local
 
   datasource:
-    url: jdbc:mysql://phodo.cbwndlp3bm95.ap-northeast-2.rds.amazonaws.com:3306/phodo
+    url: jdbc:mysql://phododo.cbwndlp3bm95.ap-northeast-2.rds.amazonaws.com:3306/phodo
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: phodo
-    password: phodophodo
+    username: 'phodo'
+    password: 'phodophodo'
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
@@ -18,52 +16,49 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: validate
-  mvc:
-    pathmatch:
-      # swagger
-      matching-strategy: ant_path_matcher
-
-# swagger
-springfox:
-  documentation:
-    enabled: true
-
-
-springdoc:
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
-  swagger-ui:
-    operations-sorter: alpha
-    tags-sorter: alpha
-    path: /swagger-ui.html
-    disable-swagger-default-url: true
-    display-query-params-without-oauth2: true
-
-token:
-  secret: phodo-api
-  access-token-expiration-time: 99999999999
-  refresh-token-expiration-time: 99999999999
----
-
-spring:
-  config:
-    activate:
-      on-profile: ["local"]
 
 swagger:
   url: http://localhost:8080
   desc: for local usages
 
+# JWT token
+token:
+  secret: phodo-api
+  access-token-expiration-time: 900000  # 5분
+  refresh-token-expiration-time: 31536000000
+
+
+
 ---
 
-
 spring:
-  config:
-    activate:
-      on-profile: ["real"]
+  profiles:
+    active: real
+
+  datasource:
+    url: jdbc:mysql://phododo.cbwndlp3bm95.ap-northeast-2.rds.amazonaws.com:3306/phodo
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: 'phodo'
+    password: 'phodophodo'
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
 
 swagger:
-  url: http://ec2-43-201-163-142.ap-northeast-2.compute.amazonaws.com:8080
+  url: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/
   desc: for real usages
   documentation:
     enabled: true
+
+
+# JWT token
+token:
+  secret: phodo-api
+  access-token-expiration-time: 900000  # 5분
+  refresh-token-expiration-time: 31536000000
