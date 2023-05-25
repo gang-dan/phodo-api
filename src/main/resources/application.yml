@@ -1,0 +1,16 @@
+swagger:
+  url: http://localhost:8080
+  desc: for local usages
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: ["real"]
+
+swagger:
+  url: http://please-env.eba-azdamvqz.ap-northeast-2.elasticbeanstalk.com/
+  desc: for real usages
+  documentation:
+    enabled: true
