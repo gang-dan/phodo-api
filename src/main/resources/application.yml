@@ -2,9 +2,41 @@ spring:
   profiles:
     active: local
 
+  mvc:
+    pathmatch:
+      # swagger
+      matching-strategy: ant_path_matcher
+
+  datasource:
+    url: jdbc:mysql://phododo.cbwndlp3bm95.ap-northeast-2.rds.amazonaws.com:3306/phodo
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: 'phodo'
+    password: 'phodophodo'
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+
 swagger:
   url: http://localhost:8080
   desc: for local usages
+
+oauth2:
+  redirectUri: https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+  clientId: 720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com
+  clientSecret: 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
+  desc: access token redirect uri for real
+
+# JWT token
+token:
+  secret: fairer-backend
+  access-token-expiration-time: 900000  # 5분
+  refresh-token-expiration-time: 31536000000 # 임시로 1년으로 변경, 안드로이드 갱신 기능 적용 후 2주로 다시 변경
 
 ---
 
@@ -12,8 +44,40 @@ spring:
   profiles:
     active: real
 
+  mvc:
+    pathmatch:
+      # swagger
+      matching-strategy: ant_path_matcher
+
+  datasource:
+    url: jdbc:mysql://phododo.cbwndlp3bm95.ap-northeast-2.rds.amazonaws.com:3306/phodo
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: 'phodo'
+    password: 'phodophodo'
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+
 swagger:
   url: http://please-env.eba-azdamvqz.ap-northeast-2.elasticbeanstalk.com/
   desc: for real usages
   documentation:
     enabled: true
+
+oauth2:
+  redirectUri: https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+  clientId: 720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com
+  clientSecret: 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
+  desc: access token redirect uri for real
+
+# JWT token
+token:
+  secret: fairer-backend
+  access-token-expiration-time: 900000  # 5분
+  refresh-token-expiration-time: 31536000000 # 임시로 1년으로 변경, 안드로이드 갱신 기능 적용 후 2주로 다시 변경
