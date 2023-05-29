@@ -27,14 +27,14 @@ swagger:
   desc: for local usages
 
 oauth2:
-  redirectUri: https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
-  clientId: 720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com
-  clientSecret: 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
+  redirectUri: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+  clientId: 214501978899-i8eb4aol6gb0r3cuau2iq4i8sdgoqdrp.apps.googleusercontent.com
+  clientSecret: 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
   desc: access token redirect uri for real
 
 # JWT token
 token:
-  secret: fairer-backend
+  secret: phodo-api
   access-token-expiration-time: 900000  # 5분
   refresh-token-expiration-time: 31536000000 # 임시로 1년으로 변경, 안드로이드 갱신 기능 적용 후 2주로 다시 변경
 
@@ -71,13 +71,13 @@ swagger:
     enabled: true
 
 oauth2:
-  redirectUri: https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
-  clientId: 720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com
-  clientSecret: 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
+  redirectUri: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+  clientId: 214501978899-i8eb4aol6gb0r3cuau2iq4i8sdgoqdrp.apps.googleusercontent.com
+  clientSecret: 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
   desc: access token redirect uri for real
 
 # JWT token
 token:
-  secret: fairer-backend
+  secret: phodo-api
   access-token-expiration-time: 900000  # 5분
   refresh-token-expiration-time: 31536000000 # 임시로 1년으로 변경, 안드로이드 갱신 기능 적용 후 2주로 다시 변경
