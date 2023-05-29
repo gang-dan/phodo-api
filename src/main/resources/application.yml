@@ -50,6 +50,7 @@ spring:
     hibernate:
       ddl-auto: validate
 
+
 swagger:
   url: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/
   desc: for real usages
