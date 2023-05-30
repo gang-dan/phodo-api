@@ -1,11 +1,14 @@
 package app.gangdan.please.domain.photoSpot;
 
+import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "photo_spot")
@@ -23,5 +26,9 @@ public class PhotoSpot {
     private double longitude;
 
     private double latitude;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "photoSpot", fetch = FetchType.LAZY)
+    private List<PhotoGuide> photoGuideList = new ArrayList<>();
 
 }

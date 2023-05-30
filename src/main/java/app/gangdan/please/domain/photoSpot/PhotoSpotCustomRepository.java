@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface PhotoSpotCustomRepository {
 
-    List<PhotoSpot> getSpotList(double latitude, double longitude, Long radius);
+    List<PhotoSpot> getSpotList(double latitude, double longitude, double radius);
 
 }

@@ -5,6 +5,9 @@ plugins {
 
     // jib
     id 'com.google.cloud.tools.jib' version '3.2.1'
+
+    //querydsl 추가
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'app.gangdan'
@@ -47,6 +50,9 @@ dependencies {
     //s3
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
+    // querydsl 추가
+    implementation 'com.querydsl:querydsl-jpa'
+
     //implementation 'com.google.http-client:google-http-client-jackson2:1.31.2'
     //implementation 'com.google.http-client:google-http-client-gson:1.31.2'
     //implementation 'com.google.code.gson:gson:2.8.9'
@@ -70,3 +76,22 @@ jar{
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 public class OriginalImage extends Image {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_guide_id", nullable = false)
     private PhotoGuide photoGuide;
 
