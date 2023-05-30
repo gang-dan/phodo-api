@@ -47,10 +47,12 @@ public class GoogleFeignService {
         GoogleUserInfo googleUserInfo = googleInfoFeignClient.getGoogleUserInfo(accessToken);
         log.info("email: {}", googleUserInfo.getEmail());
         log.info("name: {}", googleUserInfo.getName());
+        log.info("pictureUrl : {}", googleUserInfo.getPicture());
 
         return OAuthAttributes.builder()
                 .email(StringUtils.isBlank(googleUserInfo.getEmail()) ? googleUserInfo.getId() : googleUserInfo.getEmail()) // 이메일 동의 x 경우
                 .name(googleUserInfo.getName())
+                .picture(googleUserInfo.getPicture())
                 .socialType(SocialType.GOOGLE)
                 .build();
     }

@@ -66,6 +66,7 @@ public class OauthLoginService {
             responseJwtTokenDto.setMemberName(requestMember.getUsername());
         }
         responseJwtTokenDto.setMemberId(requestMember.getMemberId());
+        responseJwtTokenDto.setProfileImage(requestMember.getProfileImage());
 
         return responseJwtTokenDto;
     }

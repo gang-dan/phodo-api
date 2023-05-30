@@ -35,7 +35,7 @@ oauth2:
 # JWT token
 token:
   secret: phodo-api
-  access-token-expiration-time: 900000  # 5분
+  access-token-expiration-time: 31536000000
   refresh-token-expiration-time: 31536000000 # 임시로 1년으로 변경, 안드로이드 갱신 기능 적용 후 2주로 다시 변경
 
 ---
@@ -79,5 +79,5 @@ oauth2:
 # JWT token
 token:
   secret: phodo-api
-  access-token-expiration-time: 900000  # 5분
+  access-token-expiration-time: 31536000000
   refresh-token-expiration-time: 31536000000 # 임시로 1년으로 변경, 안드로이드 갱신 기능 적용 후 2주로 다시 변경

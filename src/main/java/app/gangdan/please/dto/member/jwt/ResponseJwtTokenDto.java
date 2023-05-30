@@ -30,13 +30,12 @@ public class ResponseJwtTokenDto {
     @Builder.Default
     private Boolean isNewMember = false;
 
-    @ApiModelProperty(value = "팀 소속 여부")
-    @Builder.Default
-    private Boolean hasTeam = false;
-
     @ApiModelProperty(value = "멤버 이름")
     private String memberName;
 
     @ApiModelProperty(value = "멤버 ID")
     private Long memberId;
+
+    @ApiModelProperty(value = "프로필 사진 url")
+    private String profileImage;
 }

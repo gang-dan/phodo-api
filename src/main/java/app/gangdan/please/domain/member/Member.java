@@ -32,8 +32,8 @@ public class Member extends BaseEntity {
     public static Member create(OAuthAttributes socialUserInfo) {
         return Member.builder()
                 .email(socialUserInfo.getEmail())
-                .username("")
-                .profileImage("")
+                .username(socialUserInfo.getName())
+                .profileImage(socialUserInfo.getPicture())
                 .build();
     }
 
