@@ -4,6 +4,7 @@ import app.gangdan.please.domain.BaseEntity;
 import app.gangdan.please.domain.hashtag.Hashtag;
 import app.gangdan.please.domain.image.guide.GuideImage;
 import app.gangdan.please.domain.image.original.OriginalImage;
+import app.gangdan.please.domain.member.Member;
 import app.gangdan.please.domain.photoSpot.PhotoSpot;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,11 @@ public class PhotoGuide extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long photoGuideId;
 
-    private String PhotoGuideName;
+    private String photoGuideName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_spot_id")
@@ -39,6 +44,16 @@ public class PhotoGuide extends BaseEntity {
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<OriginalImage> originalImageList = new ArrayList<>();
 
-    //public static PhotoGuide
+
+    public static PhotoGuide create(PhotoSpot photoSpot, Member member, String photoGuideName){
+
+        final PhotoGuide photoGuide = PhotoGuide.builder()
+                .member(member)
+                .photoGuideName(photoGuideName)
+                .build();
+
+        photoSpot.getPhotoGuideList().add(photoGuide);
+        return photoGuide;
+    }
 
 }

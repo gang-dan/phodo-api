@@ -23,12 +23,22 @@ public class PhotoSpot {
 
     private String photoSpotName;
 
-    private double longitude;
+    private Double longitude;
 
-    private double latitude;
+    private Double latitude;
 
     @Builder.Default
     @OneToMany(mappedBy = "photoSpot", fetch = FetchType.LAZY)
     private List<PhotoGuide> photoGuideList = new ArrayList<>();
+
+    public static PhotoSpot create(Double latitude, Double longitude, String photoSpotName) {
+
+        final PhotoSpot photoSpot = PhotoSpot.builder()
+                .photoSpotName(photoSpotName)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+        return photoSpot;
+    }
 
 }
