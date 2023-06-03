@@ -30,10 +30,12 @@ public class PhotoSpotController {
     @Tag(name = "photoSpot")
     @GetMapping("")
     @ApiOperation(value = "위치에 따른 포토 스팟 리스트, 등록된 가이드 개수 조회 api")
-    public ResponseEntity<List<PhotoSpotListResponseDto>> getSpotList(@RequestBody @Valid PhotoSpotListRequestDto dto) {
+    public ResponseEntity<List<PhotoSpotListResponseDto>> getSpotList(@RequestParam("radius") Double radius,
+                                                                      @RequestParam("latitude") Double latitude,
+                                                                      @RequestParam("longitude") Double longitude) {
 
         List<PhotoSpotListResponseDto> result = new ArrayList<>();
-        List<PhotoSpot> photoSpots = photoSpotService.getPhotoSpotList(dto.getLatitude(), dto.getLongitude(), dto.getRadius());
+        List<PhotoSpot> photoSpots = photoSpotService.getPhotoSpotList(latitude, longitude, radius);
 
         for(PhotoSpot photoSpot : photoSpots){
             result.add(PhotoSpotListResponseDto.from(photoSpot));
