@@ -39,12 +39,13 @@ public class PhotoSpotController {
     @GetMapping("/{photoSpotId}")
     @ApiOperation(value = "포토 스팟 상세 조회 api")
     public ResponseEntity<PhotoSpotResponseDto> getSpotList(@PathVariable("photoSpotId") Long photoSpotId,
-                                                            @RequestBody @Valid PhotoSpotRequestDto dto) {
+                                                            @RequestParam("latitude") Double latitude,
+                                                            @RequestParam("longitude") Double longitude) {
 
         PhotoSpot photoSpot = photoSpotService.getPhotoSpot(photoSpotId);
        // List<String> hashtags = hashtagService.getHashtags(photoSpotId).stream().map(Hashtag::getHashtagName).collect(Collectors.toList());
         return ResponseEntity.ok(PhotoSpotResponseDto.from(
-                photoSpot, calculateDistance(dto.getLatitude(), dto.getLongitude(), photoSpot.getLatitude(), photoSpot.getLongitude())));
+                photoSpot, calculateDistance(latitude, longitude, photoSpot.getLatitude(), photoSpot.getLongitude())));
     }
 
 

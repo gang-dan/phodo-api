@@ -39,4 +39,6 @@ public class PhotoGuide extends BaseEntity {
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<OriginalImage> originalImageList = new ArrayList<>();
 
+    //public static PhotoGuide
+
 }

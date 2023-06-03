@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PhotoSpotResponseDto {
 
+    @ApiModelProperty(value = "포토스팟 id", example = "2")
+    private Long photoSpotId;
+
     @ApiModelProperty(value = "포토스팟 대표 이미지 url", example = "url")
     private String photoSpotImage;
 
@@ -36,6 +39,7 @@ public class PhotoSpotResponseDto {
 
         // TODO : 테스트 필요
         return new PhotoSpotResponseDtoBuilder()
+                .photoSpotId(photoSpot.getPhotoSpotId())
                 .photoSpotImage(photoSpot.getPhotoGuideList().get(0).getOriginalImageList().get(0).getImageUrl())
                 .photoSpotName(photoSpot.getPhotoSpotName())
                 .photoGuideNum((long) photoSpot.getPhotoGuideList().size())

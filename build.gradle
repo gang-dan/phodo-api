@@ -53,6 +53,9 @@ dependencies {
     // querydsl 추가
     implementation 'com.querydsl:querydsl-jpa'
 
+    // map
+    //implementation 'org.springframework.cloud:spring-cloud-starter-gcp'
+
     //implementation 'com.google.http-client:google-http-client-jackson2:1.31.2'
     //implementation 'com.google.http-client:google-http-client-gson:1.31.2'
     //implementation 'com.google.code.gson:gson:2.8.9'

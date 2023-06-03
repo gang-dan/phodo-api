@@ -21,6 +21,16 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: validate
+    cloud:
+      gcp:
+        credentials:
+          location: file:/path/to/service-account-key.json
+        project-id: crucial-mender-383111
+
+map:
+  api:
+    key: AIzaSyBlzwzrd-9VPX8D0TZSj1GdSJgiXqlJN9I
+    url: https://maps.googleapis.com/maps/api/place/details/json?place_id={placeId}&key={apiKey}
 
 swagger:
   url: http://localhost:8080
@@ -63,6 +73,16 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: validate
+  cloud:
+    gcp:
+      credentials:
+        location: file:/path/to/service-account-key.json
+      project-id: crucial-mender-383111
+
+map:
+  api:
+    key: AIzaSyBlzwzrd-9VPX8D0TZSj1GdSJgiXqlJN9I
+    url: https://maps.googleapis.com/maps/api/place/details/json?place_id={placeId}&key={apiKey}
 
 swagger:
   url: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/

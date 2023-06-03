@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 
 @Slf4j
@@ -16,9 +18,9 @@ public class S3Uploader {
     private final AmazonS3 amazonS3;
 
 //    /**
-//     * 시공사 대표 이미지 업르도
+//     * original 이미지 업르도
 //     */
-//    public String s3UploadOfMemberImage(Member member, MultipartFile multipartFile) throws IOException {
+//    public String s3UploadOriginalImage(Member member, MultipartFile multipartFile) throws IOException {
 //
 //        //폴더 경로
 //        String folderPath = "contractor";
@@ -29,7 +31,7 @@ public class S3Uploader {
 //
 //        return s3Upload(folderPath, fileName, multipartFile);
 //    }
-//
+
 //    /**
 //     * 시공사 사업 등록증 이미지 업로드
 //     */
@@ -44,7 +46,7 @@ public class S3Uploader {
 //
 //        return s3Upload(folderPath, fileName, multipartFile);
 //    }
-//
+
 //    /**
 //     * 공지사항 파일 리스트 업로드
 //     */
