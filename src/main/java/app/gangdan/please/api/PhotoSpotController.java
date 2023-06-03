@@ -32,7 +32,8 @@ public class PhotoSpotController {
     @ApiOperation(value = "위치에 따른 포토 스팟 리스트, 등록된 가이드 개수 조회 api")
     public ResponseEntity<List<PhotoSpotListResponseDto>> getSpotList(@RequestParam("radius") Double radius,
                                                                       @RequestParam("latitude") Double latitude,
-                                                                      @RequestParam("longitude") Double longitude) {
+                                                                      @RequestParam("longitude") Double longitude,
+                                                                      @RequestParam("isSelected") Boolean isSelected) {
 
         List<PhotoSpotListResponseDto> result = new ArrayList<>();
         List<PhotoSpot> photoSpots = photoSpotService.getPhotoSpotList(latitude, longitude, radius);
