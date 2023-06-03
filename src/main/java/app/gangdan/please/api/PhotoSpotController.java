@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -28,10 +30,15 @@ public class PhotoSpotController {
     @Tag(name = "photoSpot")
     @GetMapping("")
     @ApiOperation(value = "위치에 따른 포토 스팟 리스트, 등록된 가이드 개수 조회 api")
-    public ResponseEntity<PhotoSpotListResponseDto> getSpotList(@RequestBody @Valid PhotoSpotListRequestDto dto) {
+    public ResponseEntity<List<PhotoSpotListResponseDto>> getSpotList(@RequestBody @Valid PhotoSpotListRequestDto dto) {
 
-        photoSpotService.getPhotoSpotList(dto.getLatitude(), dto.getLongitude(), dto.getRadius());
-        return ResponseEntity.ok(PhotoSpotListResponseDto.from(1L, 1L));
+        List<PhotoSpotListResponseDto> result = new ArrayList<>();
+        List<PhotoSpot> photoSpots = photoSpotService.getPhotoSpotList(dto.getLatitude(), dto.getLongitude(), dto.getRadius());
+
+        for(PhotoSpot photoSpot : photoSpots){
+            result.add(PhotoSpotListResponseDto.from(photoSpot));
+        }
+        return ResponseEntity.ok(result);
     }
 
 
