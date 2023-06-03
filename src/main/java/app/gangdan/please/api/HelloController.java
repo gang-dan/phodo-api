@@ -28,7 +28,7 @@ public class HelloController {
     @Tag(name = "hello")
     @ApiOperation(value = "test!!")
     @GetMapping("/v2")
-    public ResponseEntity<?> testHelloV2(@RequestParam("text") String text){
+    public ResponseEntity<HelloResponseDto> testHelloV2(@RequestParam("text") String text){
 
         return ResponseEntity.ok(HelloResponseDto.from(text));
     }
