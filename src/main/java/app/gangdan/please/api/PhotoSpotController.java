@@ -29,7 +29,7 @@ public class PhotoSpotController {
 
     @Tag(name = "photoSpot")
     @GetMapping("")
-    @ApiOperation(value = "위치에 따른 포토 스팟 리스트, 등록된 가이드 개수 조회 api")
+    @ApiOperation(value = "위치에 따른 포토 스팟 리스트, 등록된 가이드 개수 조회 api", notes = "지도 뷰에서 사용")
     public ResponseEntity<List<PhotoSpotListResponseDto>> getSpotList(@RequestParam("radius") Double radius,
                                                                       @RequestParam("latitude") Double latitude,
                                                                       @RequestParam("longitude") Double longitude,
