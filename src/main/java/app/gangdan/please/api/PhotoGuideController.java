@@ -10,6 +10,7 @@ import app.gangdan.please.dto.photoSpot.response.PhotoSpotListResponseDto;
 import app.gangdan.please.global.resolver.RequestMemberId;
 import app.gangdan.please.service.photoGuide.PhotoGuideService;
 import app.gangdan.please.service.photoSpot.PhotoSpotService;
+import com.drew.imaging.ImageProcessingException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class PhotoGuideController {
     @PostMapping("")
     public ResponseEntity<PhotoGuideCreateResponseDto> create(@RequestPart("requestImage") MultipartFile requestImage,
                                                                 @Validated @RequestBody PhotoGuideRequestDto req,
-                                                                @ApiIgnore @RequestMemberId Long memberId) throws IOException {
+                                                                @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
 
         final Long photoGuideId = photoGuideService.create(memberId, requestImage, req.getLatitude(), req.getLatitude(), req.getHashtags(), req.getPhotoGuideName()).getPhotoGuideId();
         return new ResponseEntity<>(PhotoGuideCreateResponseDto.create(photoGuideId), HttpStatus.CREATED);
