@@ -53,6 +53,9 @@ dependencies {
     // querydsl 추가
     implementation 'com.querydsl:querydsl-jpa'
 
+    // image metadata
+    implementation 'com.drewnoakes:metadata-extractor:2.9.1'
+
     // map
     //implementation 'org.springframework.cloud:spring-cloud-starter-gcp'
 

@@ -10,11 +10,21 @@ import app.gangdan.please.domain.photoSpot.PhotoSpotRepository;
 import app.gangdan.please.global.exception.BadRequestException;
 import app.gangdan.please.service.google.GooglePlaceService;
 import app.gangdan.please.service.photoSpot.PhotoSpotService;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.exif.GpsDirectory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifIFD0Directory;
+
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,21 +42,26 @@ public class PhotoGuideService {
     /**
      * 포토 가이드 생성
      */
-    public PhotoGuide create(Long memberId, MultipartFile requestImage, Double latitude, Double longitude, String hashtags, String photoGuideName) {
+    public PhotoGuide create(Long memberId, MultipartFile requestImage, Double latitude, Double longitude, String hashtags, String photoGuideName) throws IOException, ImageProcessingException {
 
-        // 등록된 photoSpot인지 확인
         String photoSpotName = googlePlaceService.getPlaceName(latitude, latitude);
         PhotoSpot photoSpot;
 
-        if(photoSpotRepository.findByName(photoSpotName) != null){
+        // image metadata -> 위도, 경도 추출
+        byte[] bytes = requestImage.getBytes();
+        Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(bytes));
 
-            // 등록되지 않은 photoSpot -> 생성부터
-            photoSpot = photoSpotService.create(memberId, requestImage, latitude, longitude);
+        // Gps 디렉토리에서 위도, 경도 추출
+        GpsDirectory directory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+        Double imageLatitude = Double.valueOf(String.valueOf(directory.getGeoLocation().getLatitude()));
+        Double imageLongitude = Double.valueOf(String.valueOf(directory.getGeoLocation().getLongitude()));
+
+
+        if(photoSpotRepository.findByName(photoSpotName) != null){
+            photoSpot = photoSpotService.create(imageLatitude, imageLongitude); // 등록되지 않은 photoSpot -> 생성
 
         } else {
-
-            // 등록된 photoSpot -> 가져오기
-            photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(latitude, longitude));
+            photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(latitude, longitude)); // 등록된 photoSpot -> select
         }
 
         // SegmentationService <-> model 호출 로직
@@ -64,6 +79,7 @@ public class PhotoGuideService {
         for (String hashtagName : hashtagNameList) {
             Hashtag.create(photoGuide, hashtagName);
         }
+
         return photoGuide;
     }
 

@@ -34,15 +34,10 @@ public class PhotoSpotService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 포토스팟 입니다."));
     }
 
-    public PhotoSpot create(Long memberId, MultipartFile requestImage, Double latitude, Double longitude){
+    public PhotoSpot create(Double latitude, Double longitude){
 
         // PhotoSpot 생성
-        PhotoSpot photoSpot = PhotoSpot.create(latitude, longitude, googlePlaceService.getPlaceName(latitude, longitude));
-
-        // PhotoSpotImage 저장
-        // imageService.saveOriginalImage()
-
-        return photoSpot;
+        return PhotoSpot.create(latitude, longitude, googlePlaceService.getPlaceName(latitude, longitude));
     }
 }
 
