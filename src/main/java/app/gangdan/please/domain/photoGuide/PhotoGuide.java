@@ -44,6 +44,10 @@ public class PhotoGuide extends BaseEntity {
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<OriginalImage> originalImageList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+    private List<GuideImage> guideImageList = new ArrayList<>();
+
 
     public static PhotoGuide create(PhotoSpot photoSpot, Member member, String photoGuideName){
 

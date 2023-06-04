@@ -29,6 +29,9 @@ public class PhotoGuideService {
     private final PhotoSpotRepository photoSpotRepository;
     private final MemberRepository memberRepository;
 
+    /**
+     * 포토 가이드 생성
+     */
     public PhotoGuide create(Long memberId, MultipartFile requestImage, Double latitude, Double longitude, String hashtags, String photoGuideName) {
 
         // 등록된 photoSpot인지 확인
@@ -61,11 +64,27 @@ public class PhotoGuideService {
         for (String hashtagName : hashtagNameList) {
             Hashtag.create(photoGuide, hashtagName);
         }
-
-
-
-        return null;
+        return photoGuide;
     }
+
+    /**
+     * 포토 가이드 리스트 조회
+     */
+    public List<PhotoGuide> getPhotoGuideList(Long photoSpotId) {
+
+        return photoGuideRepository.findByPhotoSpotId(photoSpotId);
+    }
+
+    /**
+     * 포토 가이드 상세 조회
+     */
+    public PhotoGuide getPhotoGuide(Long photoGuideId) {
+
+        return photoGuideRepository.findById(photoGuideId).orElseThrow(() -> {
+            throw new BadRequestException("존재하지 않는 가이드 입니다.");
+        });
+    }
+
 
     private Member findMemberOrThrow(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(() -> {
