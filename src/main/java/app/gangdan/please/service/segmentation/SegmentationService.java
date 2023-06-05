@@ -1,6 +1,6 @@
 package app.gangdan.please.service.segmentation;
 
-import app.gangdan.please.dto.segmentation.SegmentationRequestDto;
+import app.gangdan.please.dto.segmentation.request.SegmentationRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,12 +16,12 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class SegmentationService {
 
-    public String callSegmentation(String folderName, String fileName, String accessToken) {
+    public String callSegmentation(String folderName, String fileName, String authorizationCode) {
 
-        String apiEndpoint = "http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/colab/guide";  // Colab API의 엔드포인트 URL
+        String apiEndpoint = "https://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/colab/guide";  // Colab API의 엔드포인트 URL
         HttpHeaders headers = new HttpHeaders();
         // 필요한 경우에 헤더를 추가할 수 있습니다
-        headers.add("Authorization", accessToken);
+        headers.add("Authorization", authorizationCode);
 
         HttpEntity<SegmentationRequestDto> requestEntity = new HttpEntity<>(headers);
 

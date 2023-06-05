@@ -22,5 +22,6 @@ public class GuideImage extends Image {
     public GuideImage(PhotoGuide photoGuide, String imagerUrl){
         super(imagerUrl);
         this.photoGuide = photoGuide;
+        photoGuide.getGuideImageList().add(this);
     }
 }

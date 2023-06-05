@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 public class MaskImage extends Image {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_guide_id", nullable = false)
     private PhotoGuide photoGuide;
 
@@ -22,5 +22,6 @@ public class MaskImage extends Image {
     public MaskImage(PhotoGuide photoGuide, String imagerUrl){
         super(imagerUrl);
         this.photoGuide = photoGuide;
+        photoGuide.getMaskImageList().add(this);
     }
 }

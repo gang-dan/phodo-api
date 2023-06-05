@@ -3,7 +3,9 @@ package app.gangdan.please.domain.photoGuide;
 import app.gangdan.please.domain.BaseEntity;
 import app.gangdan.please.domain.file.guide.GuideFile;
 import app.gangdan.please.domain.hashtag.Hashtag;
+import app.gangdan.please.domain.heart.Heart;
 import app.gangdan.please.domain.image.guide.GuideImage;
+import app.gangdan.please.domain.image.mask.MaskImage;
 import app.gangdan.please.domain.image.original.OriginalImage;
 import app.gangdan.please.domain.member.Member;
 import app.gangdan.please.domain.photoSpot.PhotoSpot;
@@ -43,11 +45,19 @@ public class PhotoGuide extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+    private List<Heart> heartList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<OriginalImage> originalImageList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<GuideImage> guideImageList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+    private List<MaskImage> maskImageList = new ArrayList<>();
 
 //    @Builder.Default
 //    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
@@ -64,12 +74,10 @@ public class PhotoGuide extends BaseEntity {
 
     public static PhotoGuide create(PhotoSpot photoSpot, Member member){
 
-        final PhotoGuide photoGuide = PhotoGuide.builder()
+        return PhotoGuide.builder()
                 .member(member)
+                .photoSpot(photoSpot)
                 .build();
-
-       // photoSpot.getPhotoGuideList().add(photoGuide);
-        return photoGuide;
     }
 
 }

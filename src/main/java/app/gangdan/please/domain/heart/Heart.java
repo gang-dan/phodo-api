@@ -29,4 +29,17 @@ public class Heart {
     @JoinColumn(name = "photo_guide_id")
     private PhotoGuide photoGuide;
 
+    public static Heart create(PhotoGuide photoGuide, Member member) {
+        final Heart heart = Heart.builder()
+                .photoGuide(photoGuide)
+                .member(member)
+                .build();
+        photoGuide.getHeartList().add(heart);
+        return heart;
+    }
+
+    public boolean isCreator(Long memberId) {
+        return this.member.getMemberId().equals(memberId);
+    }
+
 }

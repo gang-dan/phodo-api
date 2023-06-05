@@ -14,6 +14,7 @@ import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.exif.GpsDirectory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -36,6 +37,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class PhotoGuideService {
 
     private final GooglePlaceService googlePlaceService;
@@ -49,7 +51,8 @@ public class PhotoGuideService {
      */
     public PhotoGuide createPhotoGuide(Long memberId, MultipartFile requestImage, Double latitude, Double longitude) throws IOException, ImageProcessingException {
 
-        String photoSpotName = googlePlaceService.getPlaceName(latitude, latitude);
+        String photoSpotName = googlePlaceService.getPlaceName(latitude, longitude);
+        log.info("placeName :::::::::: " + googlePlaceService.getPlaceName(37.5, 126.9));
         PhotoSpot photoSpot;
 
         // image metadata -> 위도, 경도 추출
@@ -59,44 +62,18 @@ public class PhotoGuideService {
         // Gps 디렉토리에서 위도, 경도 추출
         GpsDirectory directory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
 
-//        double imageLatitude = (double) 0L;
-//        double imageLongitude = (double) 0L;
-//
-//        if (Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude())) != null){
-//            imageLatitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
-//        }
-//
-//        if (directory.getGeoLocation().getLatitude() != null){
-//            imageLongitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
-//        }
-
-        Double imageLatitude = 30.0;
-        Double imageLongitude = 30.0;
-
-//        if (directory.getGeoLocation().getLatitude() != null) {
-//            imageLatitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
-//            imageLongitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLongitude()));
-//        }
-//
-
-//
-//        imageLatitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
-//        Double imageLongitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLongitude()));
-
-//        if (imageLatitude == null){
-//            imageLatitude = 30.0;
-//        }
-//
-//        if (imageLongitude == null){
-//            imageLongitude = 30.0;
-//        }
-
+        Double imageLatitude = 37.5;
+        Double imageLongitude = 126.9;
 
         if(photoSpotRepository.findByName(photoSpotName) != null){
             photoSpot = photoSpotService.create(imageLatitude, imageLongitude); // 등록되지 않은 photoSpot -> 생성
 
         } else {
             photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(latitude, longitude)); // 등록된 photoSpot -> select
+        }
+
+        if(photoSpot == null){
+            photoSpot = photoSpotRepository.findByName("용산 아이파크몰");
         }
 
         // photoGuide 생성
