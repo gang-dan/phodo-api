@@ -12,6 +12,7 @@ import app.gangdan.please.service.file.FileService;
 import app.gangdan.please.service.image.ImageService;
 import app.gangdan.please.service.photoGuide.PhotoGuideService;
 import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
+import app.gangdan.please.service.photoSpot.PhotoSpotService;
 import com.drew.imaging.ImageProcessingException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
