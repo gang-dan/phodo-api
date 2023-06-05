@@ -12,7 +12,6 @@ import app.gangdan.please.service.file.FileService;
 import app.gangdan.please.service.image.ImageService;
 import app.gangdan.please.service.photoGuide.PhotoGuideService;
 import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
-import app.gangdan.please.service.photoSpot.PhotoSpotService;
 import com.drew.imaging.ImageProcessingException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,11 +43,11 @@ public class PhotoGuideController {
     @ApiOperation(value = "포토 가이드 등록 api")
     @PostMapping("")
     public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuide(@RequestPart("requestImage") MultipartFile requestImage,
-                                                                        @RequestPart("photoGuideRequestDto") PhotoGuideRequestDto req,
+                                                                        //@RequestPart("photoGuideRequestDto") PhotoGuideRequestDto req,
                                                                 @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
 
         // PhotoGuide 생성
-        PhotoGuide photoGuide = photoGuideService.createPhotoGuide(memberId, requestImage, req.getLatitude(), req.getLatitude());
+        PhotoGuide photoGuide = photoGuideService.createPhotoGuide(memberId, requestImage);
         imageService.saveOriginalImage(photoGuide, requestImage);
 
         // colab 접근 -> Yolo script 수행
@@ -63,7 +62,7 @@ public class PhotoGuideController {
                                                                             @RequestPart("photoGuideRequestDto") PhotoGuideRequestDto req) throws IOException, ImageProcessingException {
 
         // PhotoGuide 생성
-        PhotoGuide photoGuide = photoGuideService.createPhotoGuide(1L, requestImage, req.getLatitude(), req.getLatitude());
+        PhotoGuide photoGuide = photoGuideService.createPhotoGuide(1L, requestImage);
         imageService.saveOriginalImage(photoGuide, requestImage);
 
         // colab 접근 -> Yolo script 수행

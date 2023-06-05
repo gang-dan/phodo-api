@@ -49,10 +49,8 @@ public class PhotoGuideService {
     /**
      * 포토 가이드 생성
      */
-    public PhotoGuide createPhotoGuide(Long memberId, MultipartFile requestImage, Double latitude, Double longitude) throws IOException, ImageProcessingException {
+    public PhotoGuide createPhotoGuide(Long memberId, MultipartFile requestImage) throws IOException, ImageProcessingException {
 
-        String photoSpotName = googlePlaceService.getPlaceName(latitude, longitude);
-        log.info("placeName :::::::::: " + googlePlaceService.getPlaceName(37.5, 126.9));
         PhotoSpot photoSpot;
 
         // image metadata -> 위도, 경도 추출
@@ -65,11 +63,15 @@ public class PhotoGuideService {
         Double imageLatitude = 37.5;
         Double imageLongitude = 126.9;
 
+        // if(Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude())) != null){}
+
+        String photoSpotName = googlePlaceService.getPlaceName(imageLatitude, imageLongitude);
+
         if(photoSpotRepository.findByName(photoSpotName) != null){
             photoSpot = photoSpotService.create(imageLatitude, imageLongitude); // 등록되지 않은 photoSpot -> 생성
 
         } else {
-            photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(latitude, longitude)); // 등록된 photoSpot -> select
+            photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(imageLatitude, imageLongitude)); // 등록된 photoSpot -> select
         }
 
         if(photoSpot == null){
@@ -107,7 +109,6 @@ public class PhotoGuideService {
 
 
         // 2. output s3에 저장
-
 
 
         return null;
