@@ -41,6 +41,24 @@ public class S3Uploader {
         return s3Upload(folderPath, fileName, imageFile);
     }
 
+    /**
+     * json 파일 업르도
+     */
+    public String s3UploadGuideFile(PhotoGuide photoGuide, MultipartFile jsonFile) throws IOException{
+
+        //폴더 경로
+        String folderPath = "json";
+
+        //파일 이름
+        String frontName = String.valueOf(photoGuide.getPhotoGuideId());
+        String fileName = createFileName(frontName, jsonFile.getOriginalFilename());
+
+        return s3Upload(folderPath, fileName, jsonFile);
+    }
+
+
+
+
 //    /**
 //     * 시공사 사업 등록증 이미지 업로드
 //     */

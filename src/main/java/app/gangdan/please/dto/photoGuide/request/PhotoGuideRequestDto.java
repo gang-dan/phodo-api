@@ -20,8 +20,4 @@ public class PhotoGuideRequestDto {
     @ApiModelProperty(value = "경도", example = "5.5", required = true)
     private Double longitude;
 
-    @ApiModelProperty(value = "해시태그 목록", example = "웅장한, 재밌는, 필수 (콤마로 구분할게요~)")
-    private String hashtags;
-
-
 }
