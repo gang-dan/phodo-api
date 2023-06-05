@@ -71,6 +71,16 @@ public class PhotoGuideController {
         return new ResponseEntity<>(PhotoGuideSegResponseDto.from(photoGuideId), HttpStatus.CREATED);
     }
 
+    @Tag(name = "photoGuide")
+    @GetMapping("/all")
+    @ApiOperation(value = "포토 가이드 둘러보기 api", notes = "최대 18개 리턴")
+    public ResponseEntity<List<PhotoGuideResponseDto>> getAll() {
+
+        List<PhotoGuideResponseDto> result = new ArrayList<>();
+        result = photoGuideService.getAllPhotoGuide().stream().map(PhotoGuideResponseDto::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(result);
+    }
 
 
     @Tag(name = "photoGuide")

@@ -14,6 +14,8 @@ import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.exif.GpsDirectory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,7 @@ import com.drew.metadata.exif.ExifIFD0Directory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -137,6 +140,15 @@ public class PhotoGuideService {
         return photoGuideRepository.findById(photoGuideId).orElseThrow(() -> {
             throw new BadRequestException("존재하지 않는 가이드 입니다.");
         });
+    }
+
+    /**
+     * 포토 가이드 둘러보기
+     */
+    public List<PhotoGuide> getAllPhotoGuide() {
+
+        Pageable pageable = PageRequest.of(0, 18);
+        return photoGuideRepository.findAll(pageable).getContent();
     }
 
 
