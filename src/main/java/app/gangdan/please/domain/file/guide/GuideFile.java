@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Entity
 public class GuideFile extends File {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_guide_id", nullable = false)
     private PhotoGuide photoGuide;
 

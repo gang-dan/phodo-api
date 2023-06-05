@@ -1,6 +1,7 @@
 package app.gangdan.please.domain.photoGuide;
 
 import app.gangdan.please.domain.BaseEntity;
+import app.gangdan.please.domain.file.guide.GuideFile;
 import app.gangdan.please.domain.hashtag.Hashtag;
 import app.gangdan.please.domain.image.guide.GuideImage;
 import app.gangdan.please.domain.image.original.OriginalImage;
@@ -48,12 +49,15 @@ public class PhotoGuide extends BaseEntity {
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<GuideImage> guideImageList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+    private List<GuideFile> guideFileList = new ArrayList<>();
 
-    public static PhotoGuide create(PhotoSpot photoSpot, Member member, String photoGuideName){
+
+    public static PhotoGuide create(PhotoSpot photoSpot, Member member){
 
         final PhotoGuide photoGuide = PhotoGuide.builder()
                 .member(member)
-                .photoGuideName(photoGuideName)
                 .build();
 
         photoSpot.getPhotoGuideList().add(photoGuide);

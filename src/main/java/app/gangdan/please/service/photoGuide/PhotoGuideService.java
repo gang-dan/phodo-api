@@ -10,6 +10,7 @@ import app.gangdan.please.domain.photoSpot.PhotoSpotRepository;
 import app.gangdan.please.global.exception.BadRequestException;
 import app.gangdan.please.service.google.GooglePlaceService;
 import app.gangdan.please.service.photoSpot.PhotoSpotService;
+import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.exif.GpsDirectory;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class PhotoGuideService {
     /**
      * 포토 가이드 생성
      */
-    public PhotoGuide create(Long memberId, MultipartFile requestImage, Double latitude, Double longitude, String hashtags, String photoGuideName) throws IOException, ImageProcessingException {
+    public PhotoGuide createPhotoGuide(Long memberId, MultipartFile requestImage, Double latitude, Double longitude) throws IOException, ImageProcessingException {
 
         String photoSpotName = googlePlaceService.getPlaceName(latitude, latitude);
         PhotoSpot photoSpot;
@@ -64,18 +65,36 @@ public class PhotoGuideService {
             photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(latitude, longitude)); // 등록된 photoSpot -> select
         }
 
-        // SegmentationService <-> model 호출 로직
-
-        // output S3 저장 로직
-
         // photoGuide 생성
-        PhotoGuide photoGuide = PhotoGuide.create(photoSpot, findMemberOrThrow(memberId), photoGuideName);
+        PhotoGuide photoGuide = PhotoGuide.create(photoSpot, findMemberOrThrow(memberId));
         photoGuideRepository.save(photoGuide);
 
-        // hashtag 생성
-        List<String> hashtagNames = new ArrayList<>();
-        String[] hashtagNameList = hashtags.split(",");
+        return photoGuide;
+    }
 
+    /**
+     * yolov5 api 호출
+     */
+    public PhotoGuideSegVo segment(MultipartFile requestImage) {
+
+        // 1. 호출
+
+        // 2. output s3에 저장
+
+        return null;
+    }
+
+    /**
+     * 포토 가이드 생성 - 최종 외곽선 적용
+     */
+    public PhotoGuide createSegment(Long memberId, Long photoGuideId, MultipartFile guideJsonFile, String hashtags) throws IOException, ImageProcessingException {
+
+        PhotoGuide photoGuide = findPhotoGuideOrThrow(photoGuideId);
+
+        //
+
+        // hashtag 추가
+        String[] hashtagNameList = hashtags.split(",");
         for (String hashtagName : hashtagNameList) {
             Hashtag.create(photoGuide, hashtagName);
         }
@@ -107,5 +126,12 @@ public class PhotoGuideService {
             throw new BadRequestException("존재하지 않는 멤버입니다.");
         });
     }
+
+    private PhotoGuide findPhotoGuideOrThrow(Long photoGuideId){
+        return photoGuideRepository.findById(photoGuideId).orElseThrow(() -> {
+            throw new BadRequestException("존재하지 않는 포토 가이드 입니다.");
+        });
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package app.gangdan.please.dto.photoGuide.response;
 
+import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,9 +19,25 @@ public class PhotoGuideCreateResponseDto {
     @NotNull
     private Long photoGuideId;
 
-    public static PhotoGuideCreateResponseDto create(Long photoGuideId) {
+    @ApiModelProperty(value = "외곽선 json 파일")
+    private String guideJsonFile;
+
+    @ApiModelProperty(value = "이미지 세로")
+    private Double height;
+
+    @ApiModelProperty(value = "이미지 가로")
+    private Double width;
+
+    @ApiModelProperty(value = "포토 스팟 이름")
+    private String photoSpotName;
+
+
+    public static PhotoGuideCreateResponseDto create(PhotoGuide photoGuide, Double height, Double width) {
         return PhotoGuideCreateResponseDto.builder()
-                .photoGuideId(photoGuideId)
+                .photoGuideId(photoGuide.getPhotoGuideId())
+                .guideJsonFile(photoGuide.getGuideFileList().get(0).getFileUrl())
+                .height(height)
+                .width(width)
                 .build();
     }
 
