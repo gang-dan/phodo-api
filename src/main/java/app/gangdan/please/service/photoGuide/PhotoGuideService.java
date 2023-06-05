@@ -14,8 +14,10 @@ import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.exif.GpsDirectory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.drew.imaging.ImageMetadataReader;
@@ -26,7 +28,6 @@ import com.drew.metadata.exif.ExifIFD0Directory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,10 +77,28 @@ public class PhotoGuideService {
      * yolov5 api 호출
      */
     public PhotoGuideSegVo segment(MultipartFile requestImage) {
+//
+//        // 1. 호출
+//        // Colab API 호출 URL
+//        String apiUrl = "https://colab.research.google.com/api/seg";
+//
+//        // Colab API 호출 요청 설정
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+//
+//        // Colab API 호출
+//        RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, entity, String.class);
+//
+//
+        // Colab API 응답 반환
+        // return ResponseEntity.ok(response.getBody());
 
-        // 1. 호출
 
         // 2. output s3에 저장
+
+
 
         return null;
     }
