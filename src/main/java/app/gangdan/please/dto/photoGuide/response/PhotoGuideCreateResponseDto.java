@@ -19,8 +19,8 @@ public class PhotoGuideCreateResponseDto {
     @NotNull
     private Long photoGuideId;
 
-    @ApiModelProperty(value = "외곽선 json 파일")
-    private String guideJsonFile;
+//    @ApiModelProperty(value = "외곽선 json 파일")
+//    private String guideJsonFile;
 
     @ApiModelProperty(value = "이미지 세로")
     private Double height;
@@ -35,7 +35,7 @@ public class PhotoGuideCreateResponseDto {
     public static PhotoGuideCreateResponseDto create(PhotoGuide photoGuide, Double height, Double width) {
         return PhotoGuideCreateResponseDto.builder()
                 .photoGuideId(photoGuide.getPhotoGuideId())
-                .guideJsonFile(photoGuide.getGuideFileList().get(0).getFileUrl())
+                //.guideJsonFile(photoGuide.getGuideFileList().get(0).getFileUrl())
                 .height(height)
                 .width(width)
                 .build();

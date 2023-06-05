@@ -49,9 +49,17 @@ public class PhotoGuide extends BaseEntity {
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<GuideImage> guideImageList = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
-    private List<GuideFile> guideFileList = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+//    private List<GuideFile> guideFileList = new ArrayList<>();
+
+    @Lob
+    @Column(name = "guide_line")
+    private byte[] guideLine;
+
+    public void updateGuideLine(String guideLine) {
+        this.guideLine = guideLine.getBytes();
+    }
 
 
     public static PhotoGuide create(PhotoSpot photoSpot, Member member){
@@ -60,7 +68,7 @@ public class PhotoGuide extends BaseEntity {
                 .member(member)
                 .build();
 
-        photoSpot.getPhotoGuideList().add(photoGuide);
+       // photoSpot.getPhotoGuideList().add(photoGuide);
         return photoGuide;
     }
 

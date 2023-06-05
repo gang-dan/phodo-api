@@ -58,8 +58,38 @@ public class PhotoGuideService {
 
         // Gps 디렉토리에서 위도, 경도 추출
         GpsDirectory directory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
-        Double imageLatitude = Double.valueOf(String.valueOf(directory.getGeoLocation().getLatitude()));
-        Double imageLongitude = Double.valueOf(String.valueOf(directory.getGeoLocation().getLongitude()));
+
+//        double imageLatitude = (double) 0L;
+//        double imageLongitude = (double) 0L;
+//
+//        if (Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude())) != null){
+//            imageLatitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
+//        }
+//
+//        if (directory.getGeoLocation().getLatitude() != null){
+//            imageLongitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
+//        }
+
+        Double imageLatitude = 30.0;
+        Double imageLongitude = 30.0;
+
+//        if (directory.getGeoLocation().getLatitude() != null) {
+//            imageLatitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
+//            imageLongitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLongitude()));
+//        }
+//
+
+//
+//        imageLatitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude()));
+//        Double imageLongitude = Double.parseDouble(String.valueOf(directory.getGeoLocation().getLongitude()));
+
+//        if (imageLatitude == null){
+//            imageLatitude = 30.0;
+//        }
+//
+//        if (imageLongitude == null){
+//            imageLongitude = 30.0;
+//        }
 
 
         if(photoSpotRepository.findByName(photoSpotName) != null){
@@ -109,11 +139,11 @@ public class PhotoGuideService {
     /**
      * 포토 가이드 생성 - 최종 외곽선 적용
      */
-    public PhotoGuide createSegment(Long memberId, Long photoGuideId, MultipartFile guideJsonFile, String hashtags) throws IOException, ImageProcessingException {
+    public PhotoGuide createSegment(Long memberId, Long photoGuideId, String guideLine, String hashtags) throws IOException, ImageProcessingException {
 
         PhotoGuide photoGuide = findPhotoGuideOrThrow(photoGuideId);
 
-        //
+        photoGuide.updateGuideLine(guideLine);
 
         // hashtag 추가
         String[] hashtagNameList = hashtags.split(",");

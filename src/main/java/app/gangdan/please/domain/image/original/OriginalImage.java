@@ -22,6 +22,7 @@ public class OriginalImage extends Image {
     public OriginalImage(PhotoGuide photoGuide, String imagerUrl){
         super(imagerUrl);
         this.photoGuide = photoGuide;
+        photoGuide.getOriginalImageList().add(this);
     }
 
 }

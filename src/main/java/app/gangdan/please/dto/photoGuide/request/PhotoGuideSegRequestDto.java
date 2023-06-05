@@ -13,4 +13,8 @@ public class PhotoGuideSegRequestDto {
 
     @ApiModelProperty(value = "해시태그 목록", example = "웅장한, 재밌는, 필수 (콤마로 구분할게요~)")
     private String hashtags;
+
+    @ApiModelProperty(value = "최종 외곽선 json")
+    private String guideLine;
+
 }
