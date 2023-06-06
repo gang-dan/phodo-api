@@ -23,16 +23,22 @@ public class PhotoSpotCustomRepositoryImpl implements PhotoSpotCustomRepository 
         double metersToDegrees = 0.000008998719243599958; // 미터 단위의 반지름을 경도/위도 차이로 변환
 
         // 입력받은 위도, 경도를 기준으로 범위 계산
-        double minLat = latitude - (radius * metersToDegrees);
-        double maxLat = latitude + (radius * metersToDegrees);
-        double minLng = longitude - (radius * metersToDegrees / Math.cos(Math.toRadians(latitude)));
-        double maxLng = longitude + (radius * metersToDegrees / Math.cos(Math.toRadians(latitude)));
+        double minLat = Math.round(latitude - (radius * metersToDegrees));
+        double maxLat = Math.round(latitude + (radius * metersToDegrees));
+        double minLng = Math.round(longitude - (radius * metersToDegrees / Math.cos(Math.toRadians(latitude))));
+        double maxLng = Math.round(longitude + (radius * metersToDegrees / Math.cos(Math.toRadians(latitude))));
+
+        log.info("minlat ::: " + minLat);
+        log.info("maxlat ::: " + maxLat);
+        log.info("minlng ::: " + minLng);
+        log.info("maxlng ::: " + maxLng);
+
 
         BooleanExpression withinRadius = photoSpot.latitude.between(minLat, maxLat)
-                .and(photoSpot.longitude.between(minLng, maxLng));
+                .and(photoSpot.longitude.between(maxLng, minLng));
 
         return jpaQueryFactory.select(photoSpot)
-                .where(withinRadius)
+                //.where(photoSpot.latitude.between(minLat, maxLat))
                 .fetch();
 
         // return null;

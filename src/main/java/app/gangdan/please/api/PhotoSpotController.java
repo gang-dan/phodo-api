@@ -10,6 +10,7 @@ import app.gangdan.please.service.photoSpot.PhotoSpotService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import java.util.List;
 @Tag(name = "photoSpot", description = "포토 스팟 API")
 @RequiredArgsConstructor
 @RequestMapping("/api/spots")
+@Slf4j
 public class PhotoSpotController {
 
     private final PhotoSpotService photoSpotService;
@@ -36,7 +38,10 @@ public class PhotoSpotController {
                                                                       @RequestParam("isSelected") Boolean isSelected) {
 
         List<PhotoSpotListResponseDto> result = new ArrayList<>();
-        List<PhotoSpot> photoSpots = photoSpotService.getPhotoSpotList(latitude, longitude, radius);
+        //List<PhotoSpot> photoSpots = photoSpotService.getPhotoSpotList(latitude, longitude, radius);
+        List<PhotoSpot> photoSpots = photoSpotService.getAll();
+
+        log.info("spot ;:::::::::: " + photoSpots);
 
         for(PhotoSpot photoSpot : photoSpots){
             result.add(PhotoSpotListResponseDto.from(photoSpot));

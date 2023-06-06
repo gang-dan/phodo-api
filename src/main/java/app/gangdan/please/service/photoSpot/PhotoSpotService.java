@@ -39,6 +39,11 @@ public class PhotoSpotService {
         // PhotoSpot 생성
         return PhotoSpot.create(latitude, longitude, googlePlaceService.getPlaceName(latitude, longitude));
     }
+
+    public List<PhotoSpot> getAll() {
+
+        return photoSpotRepository.findAll();
+    }
 }
 
 
