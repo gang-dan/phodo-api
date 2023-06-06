@@ -65,10 +65,10 @@ public class PhotoGuide extends BaseEntity {
 
     @Lob
     @Column(name = "guide_line")
-    private byte[] guideLine;
+    private String guideLine;
 
     public void updateGuideLine(String guideLine) {
-        this.guideLine = guideLine.getBytes();
+        this.guideLine = guideLine;
     }
 
 

@@ -45,6 +45,7 @@ public class GoogleFeignService {
         log.info("Access Token: {}", accessToken);
 
         GoogleUserInfo googleUserInfo = googleInfoFeignClient.getGoogleUserInfo(accessToken);
+
         log.info("email: {}", googleUserInfo.getEmail());
         log.info("name: {}", googleUserInfo.getName());
         log.info("pictureUrl : {}", googleUserInfo.getPicture());

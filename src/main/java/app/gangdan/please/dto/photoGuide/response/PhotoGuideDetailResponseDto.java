@@ -24,8 +24,8 @@ public class PhotoGuideDetailResponseDto {
     @ApiModelProperty(value = "멤버 id")
     private Long memberId;
 
-    @ApiModelProperty(value = "포토 가이드 적용된 이미지")
-    private String guideImage;
+    @ApiModelProperty(value = "포토 가이드 컨투어 이미지")
+    private String contourImage;
 
     @ApiModelProperty(value = "포토 가이드 원본 이미지")
     private String originalImage;
@@ -34,7 +34,7 @@ public class PhotoGuideDetailResponseDto {
     private String maskImage;
 
     @ApiModelProperty(value = "외곽선 json")
-    private byte[] guideLine;
+    private String guideLine;
 
     @ApiModelProperty(value = "위도")
     private Double latitude;
@@ -57,7 +57,7 @@ public class PhotoGuideDetailResponseDto {
         return new PhotoGuideDetailResponseDtoBuilder()
                 .photoGuideId(photoGuide.getPhotoGuideId())
                 .memberId(photoGuide.getMember().getMemberId())
-                .guideImage(photoGuide.getGuideImageList().get(0).getImageUrl())
+                .contourImage(photoGuide.getGuideImageList().get(0).getImageUrl())
                 .originalImage(photoGuide.getOriginalImageList().get(0).getImageUrl())
                 .maskImage(photoGuide.getMaskImageList().get(0).getImageUrl())
                 .guideLine(photoGuide.getGuideLine())

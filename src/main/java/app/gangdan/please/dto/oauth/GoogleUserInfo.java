@@ -11,24 +11,24 @@ public class GoogleUserInfo {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("verified_email")
-    private boolean verified_email;
+//    @JsonProperty("verified_email")
+//    private boolean verified_email;
 
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("given_name")
-    private String given_name;
-
-    @JsonProperty("family_name")
-    private String family_name;
+//    @JsonProperty("given_name")
+//    private String given_name;
+//
+//    @JsonProperty("family_name")
+//    private String family_name;
 
     @JsonProperty("picture")
     private String picture;
 
-    @JsonProperty("locale")
-    private String locale;
-
-    @JsonProperty("hd")
-    private String hd;
+//    @JsonProperty("locale")
+//    private String locale;
+//
+//    @JsonProperty("hd")
+//    private String hd;
 }
