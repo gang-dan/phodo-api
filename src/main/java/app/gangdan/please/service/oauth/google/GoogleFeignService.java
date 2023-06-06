@@ -67,16 +67,20 @@ public class GoogleFeignService {
 
     private String getAccessToken(String code) {
         try {
+
+            log.info("codecode ::::::::::::: " + code);
+
             final HttpEntity request = createRequest(code);
 
             ResponseEntity<Map> response = postRequest(request);
 
             log.info("plz response: {}", response.toString());
+
             return (String) Objects.requireNonNull(response.getBody()).get("access_token");
 
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                throw new BadRequestException(e.getMessage());
+                throw new BadRequestException(e.getMessage() + "getAccessToken err!!!!!!!!!!!!!");
             }
 
             throw e;

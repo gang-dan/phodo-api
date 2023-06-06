@@ -109,7 +109,7 @@ public class PhotoGuideController {
 
     @Tag(name = "photoGuide")
     @GetMapping("/{photoGuideId}")
-    @ApiOperation(value = "포토 가이드 상세 조회 api")
+    @ApiOperation(value = "포토 가이드 상세 조회 api")   // TODO : 더미데이터 테스트
     public ResponseEntity<PhotoGuideDetailResponseDto> getPhotoGuide(@PathVariable("photoGuideId") Long photoGuideId) {
 
         PhotoGuide photoGuide = photoGuideService.getPhotoGuide(photoGuideId);

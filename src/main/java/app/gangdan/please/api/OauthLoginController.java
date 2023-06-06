@@ -33,6 +33,8 @@ public class OauthLoginController {
 
         final String accessToken = oauthLoginService.getAccessToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)); // access token 발급
 
+        log.info("authorizationnnn :::::::::::::::: " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
         oauthLoginService.validateLoginParams("GOOGLE", accessToken);
 
         final SocialType socialType = SocialType.GOOGLE;

@@ -1,5 +1,6 @@
 package app.gangdan.please.dto.photoGuide.response;
 
+import app.gangdan.please.domain.hashtag.Hashtag;
 import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +10,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -32,7 +34,7 @@ public class PhotoGuideDetailResponseDto {
     private String maskImage;
 
     @ApiModelProperty(value = "외곽선 json")
-    private String guideLine;
+    private byte[] guideLine;
 
     @ApiModelProperty(value = "위도")
     private Double latitude;
@@ -47,14 +49,23 @@ public class PhotoGuideDetailResponseDto {
     private List<String> hashtags;
 
     @ApiModelProperty(value = "좋아요 개수")
-    private Long likeNum;
+    private Long heartNum;
 
 
     public static PhotoGuideDetailResponseDto from(PhotoGuide photoGuide){
 
-        return new PhotoGuideDetailResponseDto.PhotoGuideDetailResponseDtoBuilder()
+        return new PhotoGuideDetailResponseDtoBuilder()
                 .photoGuideId(photoGuide.getPhotoGuideId())
+                .memberId(photoGuide.getMember().getMemberId())
                 .guideImage(photoGuide.getGuideImageList().get(0).getImageUrl())
+                .originalImage(photoGuide.getOriginalImageList().get(0).getImageUrl())
+                .maskImage(photoGuide.getMaskImageList().get(0).getImageUrl())
+                .guideLine(photoGuide.getGuideLine())
+                .latitude(photoGuide.getPhotoSpot().getLatitude())
+                .longitude(photoGuide.getPhotoSpot().getLongitude())
+                .photoSpotName(photoGuide.getPhotoSpot().getPhotoSpotName())
+                .hashtags(photoGuide.getHashtagList().stream().map(Hashtag::getHashtagName).collect(Collectors.toList()))
+                .heartNum((long) photoGuide.getHeartList().size())
                 .build();
     }
 
