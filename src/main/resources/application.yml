@@ -37,7 +37,7 @@ swagger:
   desc: for local usages
 
 oauth2:
-  redirectUri: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+  redirectUri: https://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
   clientId: 214501978899-i8eb4aol6gb0r3cuau2iq4i8sdgoqdrp.apps.googleusercontent.com
   clientSecret: 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
   desc: access token redirect uri for real
@@ -91,7 +91,7 @@ swagger:
     enabled: true
 
 oauth2:
-  redirectUri: http://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+  redirectUri: https://phododo-env.eba-vn2bdd4z.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
   clientId: 214501978899-i8eb4aol6gb0r3cuau2iq4i8sdgoqdrp.apps.googleusercontent.com
   clientSecret: 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
   desc: access token redirect uri for real
