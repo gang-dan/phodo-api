@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,13 @@ public class PhotoSpotResponseDto {
 
     public static PhotoSpotResponseDto from(PhotoSpot photoSpot, double myDistance){
 
+        List<String> hashtags = new ArrayList<>();
+;
+        for(Hashtag hashtag : photoSpot.getPhotoGuideList().get(0).getHashtagList()){
+            hashtags.add(hashtag.getHashtagName());
+        }
+
+
         // TODO : 테스트 필요
         return new PhotoSpotResponseDtoBuilder()
                 .photoSpotId(photoSpot.getPhotoSpotId())
@@ -44,7 +52,8 @@ public class PhotoSpotResponseDto {
                 .photoSpotName(photoSpot.getPhotoSpotName())
                 .photoGuideNum((long) photoSpot.getPhotoGuideList().size())
                 .myDistance(myDistance)
-                .hashtags(photoSpot.getPhotoGuideList().stream().map(photoGuide -> photoGuide.getHashtagList().get(0).getHashtagName()).collect(Collectors.toList()))
+                .hashtags(hashtags)
+                //.hashtags(photoSpot.getPhotoGuideList().stream().map(photoGuide -> photoGuide.getHashtagList().get(0).getHashtagName()).collect(Collectors.toList()))
                 .build();
     }
 }
