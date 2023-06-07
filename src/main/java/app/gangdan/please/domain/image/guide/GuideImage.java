@@ -17,6 +17,10 @@ public class GuideImage extends Image {
     @JoinColumn(name = "photo_guide_id", nullable = false)
     private PhotoGuide photoGuide;
 
+    private String width;
+
+    private String height;
+
     protected GuideImage(){}
 
     public GuideImage(PhotoGuide photoGuide, String imagerUrl){

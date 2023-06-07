@@ -12,4 +12,7 @@ public interface GoogleInfoFeignClient {
 
     @GetMapping(value = "/v2/userinfo", produces = "application/json", consumes = "application/json")
     GoogleUserInfo getGoogleUserInfo(@RequestHeader("Authorization") String accessToken);
+
+//    @GetMapping(value = "/v3/userinfo", produces = "application/json", consumes = "application/json")
+//    GoogleUserInfoV2 getGoogleUserInfoV2(@RequestHeader("Authorization") String accessToken);
 }

@@ -33,6 +33,12 @@ public class PhotoGuideDetailResponseDto {
     @ApiModelProperty(value = "포토 가이드 마스크 이미지")
     private String maskImage;
 
+    @ApiModelProperty(value = "가로")
+    private String width;
+
+    @ApiModelProperty(value = "세로")
+    private String height;
+
     @ApiModelProperty(value = "외곽선 json")
     private String guideLine;
 
@@ -61,6 +67,8 @@ public class PhotoGuideDetailResponseDto {
                 .originalImage(photoGuide.getOriginalImageList().get(0).getImageUrl())
                 .maskImage(photoGuide.getMaskImageList().get(0).getImageUrl())
                 .guideLine(photoGuide.getGuideLine())
+                .width(photoGuide.getGuideImageList().get(0).getWidth())
+                .height(photoGuide.getGuideImageList().get(0).getHeight())
                 .latitude(photoGuide.getPhotoSpot().getLatitude())
                 .longitude(photoGuide.getPhotoSpot().getLongitude())
                 .photoSpotName(photoGuide.getPhotoSpot().getPhotoSpotName())
