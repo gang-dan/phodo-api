@@ -7,7 +7,9 @@ import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import app.gangdan.please.domain.photoGuide.PhotoGuideRepository;
 import app.gangdan.please.domain.photoSpot.PhotoSpot;
 import app.gangdan.please.domain.photoSpot.PhotoSpotRepository;
+import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
 import app.gangdan.please.global.exception.BadRequestException;
+import app.gangdan.please.global.exception.MemberTokenNotFoundException;
 import app.gangdan.please.service.google.GooglePlaceService;
 import app.gangdan.please.service.photoSpot.PhotoSpotService;
 import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
@@ -133,6 +135,24 @@ public class PhotoGuideService {
     }
 
     /**
+     * 포토 가이드 생성 - 최종 외곽선 적용 v2
+     */
+    public PhotoGuide createSegmentV2(Long memberId, PhotoGuideSegRequestDtoV2 req) {
+
+        // photoSpot 생성
+        PhotoSpot photoSpot = PhotoSpot.create(req.getLatitude(), req.getLongitude(), req.getPhotoSpotName());
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BadRequestException("해당 멤버가 존재하지 않습니다."));
+
+        // photoGuide 생성
+        PhotoGuide photoGuide = PhotoGuide.createV2(req, photoSpot, member);
+
+        //
+
+
+        return photoGuide;
+    }
+
+    /**
      * 포토 가이드 리스트 조회
      */
     public List<PhotoGuide> getPhotoGuideList(Long photoSpotId) {
@@ -171,6 +191,5 @@ public class PhotoGuideService {
             throw new BadRequestException("존재하지 않는 포토 가이드 입니다.");
         });
     }
-
 
 }

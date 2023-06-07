@@ -3,6 +3,7 @@ package app.gangdan.please.api;
 import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideRequestDto;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDto;
+import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
 import app.gangdan.please.dto.photoGuide.response.PhotoGuideCreateResponseDto;
 import app.gangdan.please.dto.photoGuide.response.PhotoGuideDetailResponseDto;
 import app.gangdan.please.dto.photoGuide.response.PhotoGuideResponseDto;
@@ -82,6 +83,20 @@ public class PhotoGuideController {
         //fileService.saveGuideJsonFile(guideJsonFile, photoGuideId);
 
         return new ResponseEntity<>(PhotoGuideSegResponseDto.from(photoGuideId), HttpStatus.CREATED);
+    }
+
+    @Tag(name = "photoGuide")
+    @ApiOperation(value = "포토 가이드 등록 api - 최종 외곽선 ver2")
+    @PostMapping("/v2/{photoGuideId}")
+    public ResponseEntity<PhotoGuideSegResponseDto> createSegmentV2(@Validated @RequestBody PhotoGuideSegRequestDtoV2 req,
+                                                                  @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
+
+        photoGuideService.createSegmentV2(memberId, req);
+
+        //fileService.saveGuideJsonFile(guideJsonFile, photoGuideId);
+
+        //return new ResponseEntity<>(PhotoGuideSegResponseDto.from(photoGuideId), HttpStatus.CREATED);
+        return null;
     }
 
     @Tag(name = "photoGuide")

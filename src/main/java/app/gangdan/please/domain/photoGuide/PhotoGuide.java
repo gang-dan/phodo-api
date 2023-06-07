@@ -9,6 +9,7 @@ import app.gangdan.please.domain.image.mask.MaskImage;
 import app.gangdan.please.domain.image.original.OriginalImage;
 import app.gangdan.please.domain.member.Member;
 import app.gangdan.please.domain.photoSpot.PhotoSpot;
+import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -77,6 +78,15 @@ public class PhotoGuide extends BaseEntity {
         return PhotoGuide.builder()
                 .member(member)
                 .photoSpot(photoSpot)
+                .build();
+    }
+
+    public static PhotoGuide createV2(PhotoGuideSegRequestDtoV2 req, PhotoSpot photoSpot, Member member){
+
+        return PhotoGuide.builder()
+                .member(member)
+                .photoSpot(photoSpot)
+                .guideLine(req.getGuideLine())
                 .build();
     }
 
