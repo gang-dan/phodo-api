@@ -31,15 +31,15 @@ public class OauthLoginController {
     public ResponseEntity<ResponseJwtTokenDto> loginOauth(HttpServletRequest httpServletRequest) {
         log.info("=== Oauth login start ===");
 
-        final String accessToken = oauthLoginService.getAccessToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)); // access token 발급
+        //final String accessToken = oauthLoginService.getAccessToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)); // access token 발급
 
-        log.info("authorizationnnn :::::::::::::::: " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        //log.info("authorizationnnn :::::::::::::::: " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
-        oauthLoginService.validateLoginParams("GOOGLE", accessToken);
+        //oauthLoginService.validateLoginParams("GOOGLE", accessToken);
 
         final SocialType socialType = SocialType.GOOGLE;
 
-        final ResponseJwtTokenDto jwtTokenDto = oauthLoginService.login(socialType, accessToken);
+        final ResponseJwtTokenDto jwtTokenDto = oauthLoginService.login(socialType, httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
         log.info("=== Oauth login end ===");
         return ResponseEntity.ok(jwtTokenDto);
