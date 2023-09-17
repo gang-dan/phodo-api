@@ -1,6 +1,6 @@
 package app.gangdan.please.service.google;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
+//import com.google.api.services.drive.Drive;
+//import com.google.api.services.drive.model.File;
 import com.google.api.client.http.FileContent;
 import org.springframework.web.multipart.MultipartFile;
 
