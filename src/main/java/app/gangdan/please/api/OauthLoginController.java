@@ -2,6 +2,7 @@ package app.gangdan.please.api;
 
 import app.gangdan.please.domain.member.constant.SocialType;
 import app.gangdan.please.dto.member.jwt.ResponseJwtTokenDto;
+import app.gangdan.please.global.exception.BadRequestException;
 import org.apache.commons.lang3.EnumUtils;
 import app.gangdan.please.service.oauth.OauthLoginService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +40,13 @@ public class OauthLoginController {
 
         final SocialType socialType = SocialType.GOOGLE;
 
-        final ResponseJwtTokenDto jwtTokenDto = oauthLoginService.googleLoginV2(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        final String tokenString = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (tokenString == null || tokenString.isEmpty()) {
+            throw new BadRequestException("토큰이 없습니다.");
+        }
+
+        final ResponseJwtTokenDto jwtTokenDto = oauthLoginService.googleLoginV2(tokenString);
 
         log.info("=== Oauth login end ===");
         return ResponseEntity.ok(jwtTokenDto);
