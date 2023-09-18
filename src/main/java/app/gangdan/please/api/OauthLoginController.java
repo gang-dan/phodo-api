@@ -38,9 +38,10 @@ public class OauthLoginController {
 
         //oauthLoginService.validateLoginParams("GOOGLE", accessToken);
 
-        final SocialType socialType = SocialType.GOOGLE;
+       // final SocialType socialType = SocialType.GOOGLE;
 
         final String tokenString = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info("getHeader :::::::: ");
 
         if (tokenString == null || tokenString.isEmpty()) {
             throw new BadRequestException("토큰이 없습니다.");

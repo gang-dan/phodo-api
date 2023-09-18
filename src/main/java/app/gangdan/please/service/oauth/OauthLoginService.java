@@ -51,17 +51,21 @@ public class OauthLoginService {
 
     public ResponseJwtTokenDto googleLoginV2(String tokenString) {
 
+        log.info("googleLoginV2!!");
+
         Member requestMember;
         GoogleIdToken idToken = getVerifiedIdToken(tokenString);
 
         if (idToken == null) {
             throw new BadRequestException("Invalid token");
         }
+        log.info("get idToken ::: " + idToken);
 
         GoogleIdToken.Payload payload = idToken.getPayload();
 
         // Get profile information from payload
         String email = payload.getEmail();
+        log.info("email :::: " + email);
 
         OAuthAttributes socialUserInfo = generateSocialInfoFromIdToken(idToken);
 
@@ -97,6 +101,10 @@ public class OauthLoginService {
             return null;
         }
     }
+
+//    public String getAccessToken(String authorizationCode) {
+//        return googleFeignService.getAccess(authorizationCode);
+//    }
 
     public OAuthAttributes generateSocialInfoFromIdToken(GoogleIdToken idToken) {
         GoogleIdToken.Payload payload = idToken.getPayload();
@@ -174,9 +182,9 @@ public class OauthLoginService {
     }
 
     // 1
-    public String getAccessToken(String authorizationCode) {
-        return googleFeignService.getAccess(authorizationCode);
-    }
+//    public String getAccessToken(String authorizationCode) {
+//        return googleFeignService.getAccess(authorizationCode);
+//    }
 
     // 6
     public ResponseJwtTokenDto login(SocialType socialType, String accessToken) {
