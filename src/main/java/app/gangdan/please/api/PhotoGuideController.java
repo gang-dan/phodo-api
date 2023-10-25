@@ -2,6 +2,7 @@ package app.gangdan.please.api;
 
 import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideRequestDto;
+import app.gangdan.please.dto.photoGuide.request.PhotoGuideRequestDtoV2;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDto;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
 import app.gangdan.please.dto.photoGuide.response.PhotoGuideCreateResponseDto;
@@ -13,7 +14,7 @@ import app.gangdan.please.service.file.FileService;
 import app.gangdan.please.service.image.ImageService;
 import app.gangdan.please.service.photoGuide.PhotoGuideService;
 import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
-import com.drew.imaging.ImageProcessingException;
+// import com.drew.imaging.ImageProcessingException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -45,30 +46,32 @@ public class PhotoGuideController {
     @PostMapping("")
     public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuide(@RequestPart("requestImage") MultipartFile requestImage,
                                                                         //@RequestPart("photoGuideRequestDto") PhotoGuideRequestDto req,
-                                                                @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
+                                                                @ApiIgnore @RequestMemberId Long memberId) throws IOException {
 
         // PhotoGuide 생성
-        PhotoGuide photoGuide = photoGuideService.createPhotoGuide(memberId, requestImage);
-        imageService.saveOriginalImage(photoGuide, requestImage);
+       // PhotoGuide photoGuide = photoGuideService.createPhotoGuide(memberId, requestImage);
+       // imageService.saveOriginalImage(photoGuide, requestImage);
 
         // colab 접근 -> Yolo script 수행
-        PhotoGuideSegVo segVo = photoGuideService.segment(requestImage);
-        return new ResponseEntity<>(PhotoGuideCreateResponseDto.create(photoGuide, segVo.getHeight(), segVo.getWidth()), HttpStatus.CREATED);
+        // PhotoGuideSegVo segVo = photoGuideService.segment(requestImage);
+        // return new ResponseEntity<>(PhotoGuideCreateResponseDto.create(photoGuide, segVo.getHeight(), segVo.getWidth()), HttpStatus.CREATED);
+        return null;
     }
 
+
     @Tag(name = "photoGuide")
-    @ApiOperation(value = "포토 가이드 등록 api test", notes = "그냥 테스트용!!")
+    @ApiOperation(value = "포토 가이드 등록 리메이크 api")
     @PostMapping("/test")
-    public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuideTest(@RequestPart("requestImage") MultipartFile requestImage,
-                                                                            @RequestPart("photoGuideRequestDto") PhotoGuideRequestDto req) throws IOException, ImageProcessingException {
+    public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuideTest(@RequestBody PhotoGuideRequestDtoV2 req) throws IOException {
 
         // PhotoGuide 생성
-        PhotoGuide photoGuide = photoGuideService.createPhotoGuide(1L, requestImage);
-        imageService.saveOriginalImage(photoGuide, requestImage);
+//         PhotoGuide photoGuide = photoGuideService.createPhotoGuide(req.getMemberId(), requestImage);
+//         imageService.saveOriginalImage(photoGuide, requestImage);
+//
+//        photoGuideService.createPhotoGuideV2(req.getPhotoSpotName(), req.get)
 
-        // colab 접근 -> Yolo script 수행
-        PhotoGuideSegVo segVo = photoGuideService.segment(requestImage);
-        return new ResponseEntity<>(PhotoGuideCreateResponseDto.create(photoGuide, 100.0, 100.0), HttpStatus.CREATED);
+
+        return null;
     }
 
     @Tag(name = "photoGuide")
@@ -76,9 +79,9 @@ public class PhotoGuideController {
     @PostMapping("/{photoGuideId}")
     public ResponseEntity<PhotoGuideSegResponseDto> createSegment(@PathVariable("photoGuideId") Long photoGuideId,
                                                                   @Validated @RequestBody PhotoGuideSegRequestDto req,
-                                                                  @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
+                                                                  @ApiIgnore @RequestMemberId Long memberId) throws IOException {
 
-        photoGuideService.createSegment(memberId, photoGuideId, req.getGuideLine(), req.getHashtags());
+        //photoGuideService.createSegment(memberId, photoGuideId, req.getGuideLine(), req.getHashtags());
 
         //fileService.saveGuideJsonFile(guideJsonFile, photoGuideId);
 
@@ -89,7 +92,7 @@ public class PhotoGuideController {
     @ApiOperation(value = "포토 가이드 등록 api - 최종 외곽선 ver2")
     @PostMapping("/v2/{photoGuideId}")
     public ResponseEntity<PhotoGuideSegResponseDto> createSegmentV2(@Validated @RequestBody PhotoGuideSegRequestDtoV2 req,
-                                                                  @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
+                                                                  @ApiIgnore @RequestMemberId Long memberId) throws IOException {
 
         photoGuideService.createSegmentV2(memberId, req);
 

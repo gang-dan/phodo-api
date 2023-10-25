@@ -4,6 +4,8 @@ import app.gangdan.please.domain.BaseEntity;
 import app.gangdan.please.domain.file.guide.GuideFile;
 import app.gangdan.please.domain.hashtag.Hashtag;
 import app.gangdan.please.domain.heart.Heart;
+import app.gangdan.please.domain.image.contour.ContourImage;
+import app.gangdan.please.domain.image.contourTrans.ContourTransImage;
 import app.gangdan.please.domain.image.guide.GuideImage;
 import app.gangdan.please.domain.image.mask.MaskImage;
 import app.gangdan.please.domain.image.original.OriginalImage;
@@ -51,6 +53,14 @@ public class PhotoGuide extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
     private List<OriginalImage> originalImageList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+    private List<ContourImage> contourImageList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)
+    private List<ContourTransImage> contourTransImageList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "photoGuide", fetch = FetchType.LAZY)

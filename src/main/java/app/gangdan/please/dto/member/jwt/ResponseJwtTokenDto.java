@@ -36,6 +36,9 @@ public class ResponseJwtTokenDto {
     @ApiModelProperty(value = "멤버 ID")
     private Long memberId;
 
+    @ApiModelProperty(value = "멤버 email")
+    private String memberEmail;
+
     @ApiModelProperty(value = "프로필 사진 url")
     private String profileImage;
 }
