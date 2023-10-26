@@ -7,6 +7,7 @@ import app.gangdan.please.domain.photoGuide.PhotoGuide;
 import app.gangdan.please.domain.photoGuide.PhotoGuideRepository;
 import app.gangdan.please.domain.photoSpot.PhotoSpot;
 import app.gangdan.please.domain.photoSpot.PhotoSpotRepository;
+import app.gangdan.please.dto.photoGuide.request.PhotoGuideRequestDtoV2;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
 import app.gangdan.please.global.exception.BadRequestException;
 import app.gangdan.please.global.exception.MemberTokenNotFoundException;
@@ -17,6 +18,7 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.exif.GpsDirectory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -32,7 +34,10 @@ import com.drew.metadata.exif.ExifIFD0Directory;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -59,7 +64,7 @@ public class PhotoGuideService {
         byte[] bytes = requestImage.getBytes();
         Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(bytes));
 
-        // Gps 디렉토리에서 위도, 경도 추출
+        // Gps 디렉토리에서 위도, 경도 추출Long memberId, MultipartFile requestImage
         GpsDirectory directory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
 
         Double imageLatitude = 37.5;
@@ -86,6 +91,46 @@ public class PhotoGuideService {
 
         return photoGuide;
     }
+
+
+    /**
+     * 포토 가이드 생성 v2
+     */
+    public PhotoGuide createPhotoGuideV2(PhotoGuideRequestDtoV2 req) throws IOException, ImageProcessingException {
+
+        PhotoSpot photoSpot;
+        // image metadata -> 위도, 경도 추출
+//        byte[] bytes = requestImage.getBytes();
+//        Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(bytes));
+//
+//        // Gps 디렉토리에서 위도, 경도 추출Long memberId, MultipartFile requestImage
+//        GpsDirectory directory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+//
+//        Double imageLatitude = 37.5;
+//        Double imageLongitude = 126.9;
+
+        // if(Double.parseDouble(String.valueOf(directory.getGeoLocation().getLatitude())) != null){}
+
+        String photoSpotName = googlePlaceService.getPlaceName(req.getLatitude(), req.getLongitude());
+
+        if(photoSpotRepository.findByName(photoSpotName) != null){
+            photoSpot = photoSpotService.create(req.getLatitude(), req.getLongitude()); // 등록되지 않은 photoSpot -> 생성
+
+        } else {
+            photoSpot = photoSpotRepository.findByName(googlePlaceService.getPlaceName(req.getLatitude(), req.getLongitude())); // 등록된 photoSpot -> select
+        }
+
+        if(photoSpot == null){
+            photoSpot = photoSpotRepository.findByName(req.getPhotoSpotName());
+        }
+
+        // photoGuide 생성
+        PhotoGuide photoGuide = PhotoGuide.create(photoSpot, findMemberOrThrow(req.getMemberId()));
+        photoGuideRepository.save(photoGuide);
+
+        return photoGuide;
+    }
+
 
     /**
      * yolov5 api 호출

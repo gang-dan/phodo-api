@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +41,22 @@ public class S3Uploader {
 
         return s3Upload(folderPath, fileName, imageFile);
     }
+
+    /**
+     * original 이미지 업르도 V2
+     */
+    public String s3UploadOriginalImageV2(PhotoGuide photoGuide, File originalImage) throws IOException{
+
+        //폴더 경로
+        String folderPath = "original";
+
+        //파일 이름
+        String frontName = String.valueOf(photoGuide.getPhotoGuideId());
+        String fileName = createFileNameV2(frontName);
+
+        return s3UploadV2(folderPath, fileName, originalImage);
+    }
+
 
     /**
      * json 파일 업르도
@@ -113,6 +130,27 @@ public class S3Uploader {
 
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+
+        //S3에 저장될 위치 + 저장파일명
+        String storeKey = folderPath + "/" + fileNm;
+
+        //s3로 업로드
+        String imageUrl = putS3(uploadFile, storeKey);
+
+        //File 로 전환되면서 로컬에 생성된 파일을 제거
+        removeNewFile(uploadFile);
+
+        return imageUrl;
+    }
+
+
+    /**
+     * S3 업로드
+     */
+    private String s3UploadV2(String folderPath, String fileNm, File uploadFile) throws IOException {
+
+//        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
+//                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
 
         //S3에 저장될 위치 + 저장파일명
         String storeKey = folderPath + "/" + fileNm;
@@ -210,6 +248,13 @@ public class S3Uploader {
         String uuid = UUID.randomUUID().toString();
 
         return frontName + "_" + uuid + "_" + originalFileName;
+    }
+
+    private String createFileNameV2(String frontName) {
+
+        String uuid = UUID.randomUUID().toString();
+
+        return frontName + "_" + uuid;
     }
 
 }

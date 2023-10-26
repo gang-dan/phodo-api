@@ -14,10 +14,11 @@ import app.gangdan.please.service.file.FileService;
 import app.gangdan.please.service.image.ImageService;
 import app.gangdan.please.service.photoGuide.PhotoGuideService;
 import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
-// import com.drew.imaging.ImageProcessingException;
+import com.drew.imaging.ImageProcessingException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +26,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,7 @@ import java.util.stream.Collectors;
 @RestController
 @Tag(name = "photoGuide", description = "포토 가이드 API")
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/guide")
 public class PhotoGuideController {
 
@@ -62,17 +67,19 @@ public class PhotoGuideController {
     @Tag(name = "photoGuide")
     @ApiOperation(value = "포토 가이드 등록 리메이크 api")
     @PostMapping("/test")
-    public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuideTest(@RequestBody PhotoGuideRequestDtoV2 req) throws IOException {
+    public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuideTest(@RequestBody PhotoGuideRequestDtoV2 req) throws IOException, ImageProcessingException {
+
+        log.info("길이확인:::: " + req.getOriginalImage());
 
         // PhotoGuide 생성
-//         PhotoGuide photoGuide = photoGuideService.createPhotoGuide(req.getMemberId(), requestImage);
-//         imageService.saveOriginalImage(photoGuide, requestImage);
-//
-//        photoGuideService.createPhotoGuideV2(req.getPhotoSpotName(), req.get)
+        PhotoGuide photoGuide = photoGuideService.createPhotoGuideV2(req);
+
+        imageService.saveOriginalImageV2(photoGuide, req.getOriginalImage());
 
 
         return null;
     }
+
 
     @Tag(name = "photoGuide")
     @ApiOperation(value = "포토 가이드 등록 api - 최종 외곽선")
@@ -133,6 +140,7 @@ public class PhotoGuideController {
         PhotoGuide photoGuide = photoGuideService.getPhotoGuide(photoGuideId);
         return ResponseEntity.ok(PhotoGuideDetailResponseDto.from(photoGuide));
     }
+
 
 }
 
