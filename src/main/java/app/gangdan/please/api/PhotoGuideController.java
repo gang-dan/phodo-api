@@ -140,12 +140,21 @@ public class PhotoGuideController {
     @Tag(name = "photoGuide")
     @GetMapping("/{photoGuideId}")
     @ApiOperation(value = "포토 가이드 상세 조회 api")   // TODO : 더미데이터 테스트
+    @Deprecated
     public ResponseEntity<PhotoGuideDetailResponseDto> getPhotoGuide(@PathVariable("photoGuideId") Long photoGuideId) {
 
         PhotoGuide photoGuide = photoGuideService.getPhotoGuide(photoGuideId);
         return ResponseEntity.ok(PhotoGuideDetailResponseDto.from(photoGuide));
     }
 
+    @Tag(name = "photoGuide")
+    @GetMapping("/v2/{photoGuideId}")
+    @ApiOperation(value = "포토 가이드 상세 조회 리메이크 api")   // TODO : 더미데이터 테스트
+    public ResponseEntity<PhotoGuideDetailResponseDto> getPhotoGuideV2(@PathVariable("photoGuideId") Long photoGuideId) {
+
+        PhotoGuide photoGuide = photoGuideService.getPhotoGuide(photoGuideId);
+        return ResponseEntity.ok(PhotoGuideDetailResponseDto.from(photoGuide));
+    }
 
 }
 

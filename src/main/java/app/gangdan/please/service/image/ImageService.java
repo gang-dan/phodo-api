@@ -66,6 +66,8 @@ public class ImageService {
             OriginalImage originalImage = new OriginalImage(photoGuide, imageUrl);
             originalImageRepository.save(originalImage);
 
+            photoGuide.getOriginalImageList().add(originalImage);
+
             System.out.println("File 객체로 변환되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,6 +94,8 @@ public class ImageService {
             //contourImage 저장
             ContourImage contourImage = new ContourImage(photoGuide, imageUrl);
             contourImageRepository.save(contourImage);
+
+            photoGuide.getContourImageList().add(contourImage);
 
             System.out.println("File 객체로 변환되었습니다.");
         } catch (Exception e) {
@@ -120,6 +124,8 @@ public class ImageService {
             ContourTransImage contourTransImage = new ContourTransImage(photoGuide, imageUrl);
             contourTransImageRepository.save(contourTransImage);
 
+            photoGuide.getContourTransImageList().add(contourTransImage);
+
             System.out.println("File 객체로 변환되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,6 +152,8 @@ public class ImageService {
             //maskImage 저장
             MaskImage maskImage = new MaskImage(photoGuide, imageUrl);
             maskImageRepository.save(maskImage);
+
+            photoGuide.getMaskImageList().add(maskImage);
 
             System.out.println("File 객체로 변환되었습니다.");
         } catch (Exception e) {
