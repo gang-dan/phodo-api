@@ -49,6 +49,7 @@ public class PhotoGuideController {
     @Tag(name = "photoGuide")
     @ApiOperation(value = "포토 가이드 등록 api")
     @PostMapping("")
+    @Deprecated
     public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuide(@RequestPart("requestImage") MultipartFile requestImage,
                                                                         //@RequestPart("photoGuideRequestDto") PhotoGuideRequestDto req,
                                                                 @ApiIgnore @RequestMemberId Long memberId) throws IOException {
@@ -75,15 +76,18 @@ public class PhotoGuideController {
         PhotoGuide photoGuide = photoGuideService.createPhotoGuideV2(req);
 
         imageService.saveOriginalImageV2(photoGuide, req.getOriginalImage());
+        imageService.saveContourImageV2(photoGuide, req.getContourImage());
+        imageService.saveContourTransImageV2(photoGuide, req.getContourTransImage());
+        imageService.saveMaskImageV2(photoGuide, req.getMaskImage());
 
-
-        return null;
+        return ResponseEntity.ok(PhotoGuideCreateResponseDto.create(photoGuide));
     }
 
 
     @Tag(name = "photoGuide")
     @ApiOperation(value = "포토 가이드 등록 api - 최종 외곽선")
     @PostMapping("/{photoGuideId}")
+    @Deprecated
     public ResponseEntity<PhotoGuideSegResponseDto> createSegment(@PathVariable("photoGuideId") Long photoGuideId,
                                                                   @Validated @RequestBody PhotoGuideSegRequestDto req,
                                                                   @ApiIgnore @RequestMemberId Long memberId) throws IOException {
@@ -98,6 +102,7 @@ public class PhotoGuideController {
     @Tag(name = "photoGuide")
     @ApiOperation(value = "포토 가이드 등록 api - 최종 외곽선 ver2")
     @PostMapping("/v2/{photoGuideId}")
+    @Deprecated
     public ResponseEntity<PhotoGuideSegResponseDto> createSegmentV2(@Validated @RequestBody PhotoGuideSegRequestDtoV2 req,
                                                                   @ApiIgnore @RequestMemberId Long memberId) throws IOException {
 

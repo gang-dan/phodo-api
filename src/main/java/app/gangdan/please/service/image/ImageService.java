@@ -1,5 +1,11 @@
 package app.gangdan.please.service.image;
 
+import app.gangdan.please.domain.image.contour.ContourImage;
+import app.gangdan.please.domain.image.contour.ContourImageRepository;
+import app.gangdan.please.domain.image.contourTrans.ContourTransImage;
+import app.gangdan.please.domain.image.contourTrans.ContourTransImageRepository;
+import app.gangdan.please.domain.image.mask.MaskImage;
+import app.gangdan.please.domain.image.mask.MaskImageRepository;
 import app.gangdan.please.domain.image.original.OriginalImage;
 import app.gangdan.please.domain.image.original.OriginalImageRepository;
 import app.gangdan.please.domain.photoGuide.PhotoGuide;
@@ -24,6 +30,9 @@ public class ImageService {
     private final S3Uploader s3Uploader;
 
     private final OriginalImageRepository originalImageRepository;
+    private final ContourImageRepository contourImageRepository;
+    private final ContourTransImageRepository contourTransImageRepository;
+    private final MaskImageRepository maskImageRepository;
 
     /**
      * 포토 가이드 original 이미지 저장
@@ -56,6 +65,87 @@ public class ImageService {
             //originalImage 저장
             OriginalImage originalImage = new OriginalImage(photoGuide, imageUrl);
             originalImageRepository.save(originalImage);
+
+            System.out.println("File 객체로 변환되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("파일 객체로 변환 중 오류가 발생했습니다.");
+        }
+
+    }
+
+    /**
+     * 포토 가이드 contour 이미지 저장 v2
+     */
+    public void saveContourImageV2(PhotoGuide photoGuide, String base64) {
+
+        try {
+            // Base64 디코딩
+            byte[] imageBytes = Base64.getDecoder().decode(base64);
+
+            // 바이트 배열을 File 객체로 변환
+            File imageFile = createImageFileFromBytes(imageBytes, String.valueOf(photoGuide.getPhotoGuideId()));
+
+            // s3 이미지 업로드
+            String imageUrl = s3Uploader.s3UploadContourImageV2(photoGuide, imageFile);
+
+            //contourImage 저장
+            ContourImage contourImage = new ContourImage(photoGuide, imageUrl);
+            contourImageRepository.save(contourImage);
+
+            System.out.println("File 객체로 변환되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("파일 객체로 변환 중 오류가 발생했습니다.");
+        }
+
+    }
+
+    /**
+     * 포토 가이드 contourTrans 이미지 저장 v2
+     */
+    public void saveContourTransImageV2(PhotoGuide photoGuide, String base64) {
+
+        try {
+            // Base64 디코딩
+            byte[] imageBytes = Base64.getDecoder().decode(base64);
+
+            // 바이트 배열을 File 객체로 변환
+            File imageFile = createImageFileFromBytes(imageBytes, String.valueOf(photoGuide.getPhotoGuideId()));
+
+            // s3 이미지 업로드
+            String imageUrl = s3Uploader.s3UploadContourTransImageV2(photoGuide, imageFile);
+
+            //contourTransImage 저장
+            ContourTransImage contourTransImage = new ContourTransImage(photoGuide, imageUrl);
+            contourTransImageRepository.save(contourTransImage);
+
+            System.out.println("File 객체로 변환되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("파일 객체로 변환 중 오류가 발생했습니다.");
+        }
+
+    }
+
+    /**
+     * 포토 가이드 mask 이미지 저장 v2
+     */
+    public void saveMaskImageV2(PhotoGuide photoGuide, String base64) {
+
+        try {
+            // Base64 디코딩
+            byte[] imageBytes = Base64.getDecoder().decode(base64);
+
+            // 바이트 배열을 File 객체로 변환
+            File imageFile = createImageFileFromBytes(imageBytes, String.valueOf(photoGuide.getPhotoGuideId()));
+
+            // s3 이미지 업로드
+            String imageUrl = s3Uploader.s3UploadMaskImageV2(photoGuide, imageFile);
+
+            //maskImage 저장
+            MaskImage maskImage = new MaskImage(photoGuide, imageUrl);
+            maskImageRepository.save(maskImage);
 
             System.out.println("File 객체로 변환되었습니다.");
         } catch (Exception e) {

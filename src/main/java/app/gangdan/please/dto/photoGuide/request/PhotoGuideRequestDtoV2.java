@@ -13,11 +13,11 @@ public class PhotoGuideRequestDtoV2 {
 
     private String originalImage;
 
-//    private byte[] contourImage;
-//
-//    private byte[] maskImage;
-//
-//    private byte[] contourTransImage;
+    private String contourImage;
+
+    private String maskImage;
+
+    private String contourTransImage;
 
     private List<String> tags;
 

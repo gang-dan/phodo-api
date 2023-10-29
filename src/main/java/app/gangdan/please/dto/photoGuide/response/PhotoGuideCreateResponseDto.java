@@ -32,12 +32,12 @@ public class PhotoGuideCreateResponseDto {
     private String photoSpotName;
 
 
-    public static PhotoGuideCreateResponseDto create(PhotoGuide photoGuide, Double height, Double width) {
+    public static PhotoGuideCreateResponseDto create(PhotoGuide photoGuide) {
         return PhotoGuideCreateResponseDto.builder()
                 .photoGuideId(photoGuide.getPhotoGuideId())
                 //.guideJsonFile(photoGuide.getGuideFileList().get(0).getFileUrl())
-                .height(height)
-                .width(width)
+//                .height(height)
+//                .width(width)
                 .build();
     }
 

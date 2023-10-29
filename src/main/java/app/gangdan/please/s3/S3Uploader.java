@@ -57,6 +57,51 @@ public class S3Uploader {
         return s3UploadV2(folderPath, fileName, originalImage);
     }
 
+    /**
+     * contour 이미지 업르도 V2
+     */
+    public String s3UploadContourImageV2(PhotoGuide photoGuide, File contourImage) throws IOException{
+
+        //폴더 경로
+        String folderPath = "contour";
+
+        //파일 이름
+        String frontName = String.valueOf(photoGuide.getPhotoGuideId());
+        String fileName = createFileNameV2(frontName);
+
+        return s3UploadV2(folderPath, fileName, contourImage);
+    }
+
+    /**
+     * contourTrans 이미지 업르도 V2
+     */
+    public String s3UploadContourTransImageV2(PhotoGuide photoGuide, File contourTransImage) throws IOException{
+
+        //폴더 경로
+        String folderPath = "contourTrans";
+
+        //파일 이름
+        String frontName = String.valueOf(photoGuide.getPhotoGuideId());
+        String fileName = createFileNameV2(frontName);
+
+        return s3UploadV2(folderPath, fileName, contourTransImage);
+    }
+
+    /**
+     * mask 이미지 업르도 V2
+     */
+    public String s3UploadMaskImageV2(PhotoGuide photoGuide, File maskImage) throws IOException{
+
+        //폴더 경로
+        String folderPath = "mask";
+
+        //파일 이름
+        String frontName = String.valueOf(photoGuide.getPhotoGuideId());
+        String fileName = createFileNameV2(frontName);
+
+        return s3UploadV2(folderPath, fileName, maskImage);
+    }
+
 
     /**
      * json 파일 업르도
