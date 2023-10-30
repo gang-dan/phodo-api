@@ -5,10 +5,7 @@ import app.gangdan.please.dto.photoGuide.request.PhotoGuideRequestDto;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideRequestDtoV2;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDto;
 import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
-import app.gangdan.please.dto.photoGuide.response.PhotoGuideCreateResponseDto;
-import app.gangdan.please.dto.photoGuide.response.PhotoGuideDetailResponseDto;
-import app.gangdan.please.dto.photoGuide.response.PhotoGuideResponseDto;
-import app.gangdan.please.dto.photoGuide.response.PhotoGuideSegResponseDto;
+import app.gangdan.please.dto.photoGuide.response.*;
 import app.gangdan.please.global.resolver.RequestMemberId;
 import app.gangdan.please.service.file.FileService;
 import app.gangdan.please.service.image.ImageService;
@@ -165,10 +162,10 @@ public class PhotoGuideController {
     @Tag(name = "photoGuide")
     @GetMapping("/v2/{photoGuideId}")
     @ApiOperation(value = "포토 가이드 상세 조회 리메이크 api")   // TODO : 더미데이터 테스트
-    public ResponseEntity<PhotoGuideDetailResponseDto> getPhotoGuideV2(@PathVariable("photoGuideId") Long photoGuideId) {
+    public ResponseEntity<PhotoGuideDetailResponseDtoV2> getPhotoGuideV2(@PathVariable("photoGuideId") Long photoGuideId) {
 
         PhotoGuide photoGuide = photoGuideService.getPhotoGuide(photoGuideId);
-        return ResponseEntity.ok(PhotoGuideDetailResponseDto.from(photoGuide));
+        return ResponseEntity.ok(PhotoGuideDetailResponseDtoV2.from(photoGuide));
     }
 
 }
