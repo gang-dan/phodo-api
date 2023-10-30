@@ -96,7 +96,11 @@ public class PhotoGuideService {
     /**
      * 포토 가이드 생성 v2
      */
-    public PhotoGuide createPhotoGuideV2(PhotoGuideRequestDtoV2 req) throws IOException, ImageProcessingException {
+    public PhotoGuide createPhotoGuideV2(PhotoGuideRequestDtoV2 req, Long memberId) throws IOException, ImageProcessingException {
+
+        if (memberId != req.getMemberId()) {
+            throw new BadRequestException("가이드를 생성할 권한이 없습니다.");
+        }
 
         PhotoSpot photoSpot;
         // image metadata -> 위도, 경도 추출

@@ -66,14 +66,17 @@ public class PhotoGuideController {
 
 
     @Tag(name = "photoGuide")
-    @ApiOperation(value = "포토 가이드 등록 리메이크 api")
+    @ApiOperation(value = "포토 가이드 등록 리메이크 api - 토큰 필요")
     @PostMapping("/test")
-    public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuideTest(@RequestBody PhotoGuideRequestDtoV2 req) throws IOException, ImageProcessingException {
+    public ResponseEntity<PhotoGuideCreateResponseDto> createPhotoGuideTest(@RequestBody PhotoGuideRequestDtoV2 req,
+                                                                            @ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
 
         log.info("길이확인:::: " + req.getOriginalImage());
+        log.info("memberId ::: " + memberId);
+        log.info("PhotoGuideRequestDtoV2: {}", req.toString());
 
         // PhotoGuide 생성
-        PhotoGuide photoGuide = photoGuideService.createPhotoGuideV2(req);
+        PhotoGuide photoGuide = photoGuideService.createPhotoGuideV2(req, memberId);
 
         imageService.saveOriginalImageV2(photoGuide, req.getOriginalImage());
         imageService.saveContourImageV2(photoGuide, req.getContourImage());

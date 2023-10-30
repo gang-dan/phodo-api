@@ -22,7 +22,7 @@ public class HeartController {
     private final HeartService heartService;
 
     @Tag(name = "heart")
-    @ApiOperation(value = "좋아요 생성 api")
+    @ApiOperation(value = "좋아요 생성 api - 토큰 필요")
     @PostMapping(value="/{photoGuideId}")
     public ResponseEntity<HeartCreateResponseDto> createHeart(@ApiIgnore @RequestMemberId Long memberId,
                                                                  @PathVariable("photoGuideId") Long photoGuideId){
@@ -31,7 +31,7 @@ public class HeartController {
     }
 
     @Tag(name = "heart")
-    @ApiOperation(value = "좋아요 삭제 api")
+    @ApiOperation(value = "좋아요 삭제 api - 토큰 필요")
     @DeleteMapping("/{heartId}")
     public ResponseEntity<?> deleteHeart(@ApiIgnore @RequestMemberId Long memberId,
                                             @PathVariable("heartId") Long heartId) {
