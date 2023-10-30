@@ -224,7 +224,7 @@ public class PhotoGuideService {
      */
     public List<PhotoGuide> getAllPhotoGuide() {
 
-        Pageable pageable = PageRequest.of(0, 18);
+        Pageable pageable = PageRequest.of(0, 30);
         return photoGuideRepository.findAll(pageable).getContent();
     }
 
