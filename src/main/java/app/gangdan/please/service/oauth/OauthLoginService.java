@@ -69,7 +69,7 @@ public class OauthLoginService {
 
         OAuthAttributes socialUserInfo = generateSocialInfoFromIdToken(idToken);
 
-        log.info≈("oauthAttributes: {}", socialUserInfo.toString());
+        log.info("oauthAttributes: {}", socialUserInfo.toString());
 
         final Optional<Member> foundMember = memberRepository.findByEmail(email);
 
