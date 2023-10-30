@@ -1,6 +1,7 @@
 package app.gangdan.please.service.photoGuide;
 
 import app.gangdan.please.domain.hashtag.Hashtag;
+import app.gangdan.please.domain.hashtag.HashtagRepository;
 import app.gangdan.please.domain.member.Member;
 import app.gangdan.please.domain.member.MemberRepository;
 import app.gangdan.please.domain.photoGuide.PhotoGuide;
@@ -51,6 +52,7 @@ public class PhotoGuideService {
     private final PhotoSpotService photoSpotService;
     private final PhotoGuideRepository photoGuideRepository;
     private final PhotoSpotRepository photoSpotRepository;
+    private final HashtagRepository hashtagRepository;
     private final MemberRepository memberRepository;
 
     /**
@@ -125,12 +127,21 @@ public class PhotoGuideService {
         }
 
         if(photoSpot == null){
-            photoSpot = photoSpotRepository.findByName(req.getPhotoSpotName());
+            photoSpot = photoSpotRepository.findById(7L).orElseThrow(() -> {
+                throw new BadRequestException("해당 장소가 존재하지 않습니다.");
+            });
         }
 
         // photoGuide 생성
         PhotoGuide photoGuide = PhotoGuide.create(photoSpot, findMemberOrThrow(req.getMemberId()));
         photoGuideRepository.save(photoGuide);
+
+        // hashtag 생성
+        for(String hashtag : req.getTags()){
+
+            Hashtag tag = hashtagRepository.save(Hashtag.create(photoGuide, hashtag));
+            photoGuide.getHashtagList().add(tag);
+        }
 
         return photoGuide;
     }

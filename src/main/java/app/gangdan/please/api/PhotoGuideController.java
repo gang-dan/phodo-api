@@ -8,6 +8,7 @@ import app.gangdan.please.dto.photoGuide.request.PhotoGuideSegRequestDtoV2;
 import app.gangdan.please.dto.photoGuide.response.*;
 import app.gangdan.please.global.resolver.RequestMemberId;
 import app.gangdan.please.service.file.FileService;
+import app.gangdan.please.service.hashtag.HashtagService;
 import app.gangdan.please.service.image.ImageService;
 import app.gangdan.please.service.photoGuide.PhotoGuideService;
 import app.gangdan.please.vo.photoGuide.PhotoGuideSegVo;
@@ -41,6 +42,7 @@ public class PhotoGuideController {
 
     private final PhotoGuideService photoGuideService;
     private final FileService fileService;
+    private final HashtagService hashtagService;
     private final ImageService imageService;
 
     @Tag(name = "photoGuide")
@@ -74,6 +76,7 @@ public class PhotoGuideController {
 
         // PhotoGuide 생성
         PhotoGuide photoGuide = photoGuideService.createPhotoGuideV2(req, memberId);
+
 
         imageService.saveOriginalImageV2(photoGuide, req.getOriginalImage());
         imageService.saveContourImageV2(photoGuide, req.getContourImage());
