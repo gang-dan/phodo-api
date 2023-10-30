@@ -86,6 +86,18 @@ public class PhotoGuideController {
         return ResponseEntity.ok(PhotoGuideCreateResponseDto.create(photoGuide));
     }
 
+    @Tag(name = "photoGuide")
+    @ApiOperation(value = "test test test api - 토큰 필요")
+    @PostMapping("/test/test")
+    public ResponseEntity<String> testetset(@ApiIgnore @RequestMemberId Long memberId) throws IOException, ImageProcessingException {
+
+
+        log.info("memberId ::: " + memberId);
+
+        return ResponseEntity.ok("test successssss");
+    }
+
+
 
     @Tag(name = "photoGuide")
     @ApiOperation(value = "포토 가이드 등록 api - 최종 외곽선")

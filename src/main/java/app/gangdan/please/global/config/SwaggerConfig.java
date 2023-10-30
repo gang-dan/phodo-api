@@ -65,11 +65,11 @@ public class SwaggerConfig {
         final AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEveryThing");
         final AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return List.of(new SecurityReference("accessToken", authorizationScopes));
+        return List.of(new SecurityReference("Authorization", authorizationScopes));
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("accessToken", "accessToken", "header");
+        return new ApiKey("Authorization", "Authorization", "header");
     }
 
     private Server getServer(String profile, String url, String desc) {

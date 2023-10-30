@@ -39,7 +39,7 @@ public class TokenProvider {
 
     public static Long getMemberId(String token) {
         try {
-            final Claims claims = Jwts.parser().setSigningKey("fairer-backend") //jwt 만들 때 사용했던 키. static 메서드 사용하기 위해서 String으로 하드 코딩.
+            final Claims claims = Jwts.parser().setSigningKey("phodo-api") //jwt 만들 때 사용했던 키. static 메서드 사용하기 위해서 String으로 하드 코딩.
                     .parseClaimsJws(token).getBody();
             return Long.parseLong(claims.getAudience());
         } catch (Exception e) {
